@@ -1,1 +1,13 @@
-<Solution />
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Heimdallr.Application/Heimdallr.Application.csproj" />
+    <Project Path="src/Heimdallr.Domain/Heimdallr.Domain.csproj" />
+    <Project Path="src/Heimdallr.Infrastructure/Heimdallr.Infrastructure.csproj" />
+    <Project Path="src/Heimdallr.WebUI/Heimdallr.WebUI.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+</Solution>
