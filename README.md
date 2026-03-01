@@ -1,59 +1,37 @@
-# Heimdallr
+<h1 align="center" id="title">Heimdallr</h1>
 
-Secure DLMS TCP proxy for controlled meter stand access.
+<p align="center"><img src="https://socialify.git.ci/shevchenkoyar/heimdallr/image?description=1&amp;font=Inter&amp;name=1&amp;owner=1&amp;pattern=Floating+Cogs&amp;theme=Auto" alt="project-image"></p>
 
----
+<p align="center">
+    <img src="https://img.shields.io/github/checks-status/shevchenkoyar/heimdallr/main" alt="shields">
+    <img src="https://img.shields.io/github/commit-activity/t/shevchenkoyar/heimdallr" alt="shields">
+    <img src="https://img.shields.io/github/license/shevchenkoyar/heimdallr" alt="shields">
+</p>
 
-<!-- TOC -->
-* [Heimdallr](#heimdallr)
-  * [What It Does?](#what-it-does)
-  * [How It Works?](#how-it-works)
-  * [Architecture](#architecture)
-    * [Clean Architecture](#clean-architecture)
-    * [Infrastructure Orchestration](#infrastructure-orchestration)
-  * [Stack](#stack)
-<!-- TOC -->
 
----
 
-## What It Does?
-* Authenticated access to meters
-* Dynamic TCP port allocation
-* One active session per meter
-* Optional IP restrictions
-* Raw TCP proxy (no client modifications required)
+<h2>🧐 Features</h2>
 
----
+Here are some of the project's best features:
 
-## How It Works?
-1. User logs in.
-2. Reserves a meter.
-3. Receives a dedicated TCP port.
-4. Connects using any standard DLMS client.
+*   Authenticated access to meters
+*   Dynamic TCP port allocation
+*   One active session per meter
+*   Optional IP restrictions
+*   Raw TCP proxy (no client modifications required)
 
-```text
-some-domain:PORT
-```
 
-Traffic is proxied directly to the physical meter.
 
----
+<h2>💻 Built with</h2>
 
-## Architecture
-### Clean Architecture
-* Domain
-* Application
-* Infrastructure
-* WebUI (Blazor)
+Technologies used in the project:
 
-### Infrastructure Orchestration
-Powered by .NET Aspire for local development and service orchestration.
+*   .NET
+*   ASP.NET Core
+*   Blazor
+*   EF Core
+*   PostgreSQL
 
----
+<h2>🛡️ License</h2>
 
-## Stack
-* .NET
-* ASP.NET Core
-* Blazor
-* EF Core
-* PostgreSQL
+This project is licensed under the [MIT License](LICENSE)
