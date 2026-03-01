@@ -29,6 +29,7 @@ It provides authentication, session control, dynamic TCP port allocation and tra
     * [ProxySessions](#proxysessions)
   * [Security Model](#security-model)
   * [Built With](#built-with)
+  * [Contributors](#contributors)
   * [License](#license)
 <!-- TOC -->
 
@@ -144,6 +145,14 @@ Heimdallr uses **.NET Aspire** for:
 - EF Core
 - PostgreSQL
 - .NET Aspire
+
+## Contributors
+
+
+| [<img alt="Yaroslav Shevchenko" src="https://avatars1.githubusercontent.com/u/46241859?s=460&v=4" width="100">](https://github.com/shevchenkoyar) | [<img alt="Alexey Tyapkin" src="https://avatars1.githubusercontent.com/u/34785129?s=460&v=4" width="100">](https://github.com/Lentilles) |
+|:-------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------:|
+|                                              [Yaroslav Shevchenko](https://github.com/shevchenkoyar)                                              |                                              [Alexey Tyapkin](https://github.com/Lentilles)                                              |
+
 
 ## License
 
