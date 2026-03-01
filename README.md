@@ -1,10 +1,10 @@
-<h1 style="text-align: center" id="title">Heimdallr</h1>
+<h1 align="center" id="title">Heimdallr</h1>
 
-<p style="text-align: center">
+<p align="center">
     <img src="https://socialify.git.ci/shevchenkoyar/heimdallr/image?description=1&amp;font=Inter&amp;name=1&amp;owner=1&amp;pattern=Floating+Cogs&amp;theme=Auto" alt="project-image">
 </p>
 
-<p style="text-align: center">
+<p align="center">
     <img src="https://img.shields.io/github/checks-status/shevchenkoyar/heimdallr/main" alt="shields">
     <img src="https://img.shields.io/github/commit-activity/t/shevchenkoyar/heimdallr" alt="shields">
     <img src="https://img.shields.io/badge/.NET-10-blue" alt="shields">
