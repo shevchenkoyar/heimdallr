@@ -1,0 +1,15 @@
+@inherits LayoutComponentBase
+
+@code {
+    
+    const string Primary = "#e80c0c";
+    
+    protected MudTheme HeimdallrTheme { get; } = new()
+    {
+        PaletteDark = new PaletteDark
+        {
+            Primary = Primary,      
+            TextSecondary = Primary,
+        }
+    };
+}
