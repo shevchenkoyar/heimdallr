@@ -2,9 +2,6 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net10.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
         <UserSecretsId>1dc7e9e9-f89b-4304-8e41-e66440229157</UserSecretsId>
     </PropertyGroup>
 
@@ -13,8 +10,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Aspire.Hosting.Docker" Version="13.1.2-preview.1.26125.13" />
-      <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.1.2" />
+      <PackageReference Include="Aspire.Hosting.Docker"/>
+      <PackageReference Include="Aspire.Hosting.PostgreSQL"/>
     </ItemGroup>
 
 </Project>
