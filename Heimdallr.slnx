@@ -9,5 +9,9 @@
     <Project Path="src/Heimdallr.Infrastructure/Heimdallr.Infrastructure.csproj" />
     <Project Path="src/Heimdallr.WebUI/Heimdallr.WebUI.csproj" />
   </Folder>
+  <Folder Name="/src/Aspire/">
+    <Project Path="src/Aspire/Heimdallr.Aspire.AppHost\Heimdallr.Aspire.AppHost.csproj" />
+    <Project Path="src/Aspire/Heimdallr.Aspire.ServiceDefaults\Heimdallr.Aspire.ServiceDefaults.csproj" />
+  </Folder>
   <Folder Name="/tests/" />
 </Solution>
