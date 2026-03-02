@@ -91,6 +91,82 @@ The solution follows strict separation of concerns:
     - Session monitoring
     - Administrative controls
 
+```mermaid
+erDiagram
+
+    USERS ||--o{ USER_IP_RULES : has
+    USERS ||--o{ PROXY_SESSIONS : creates
+    METERS ||--o{ METER_ENDPOINTS : has
+    METERS ||--o{ PROXY_SESSIONS : reserved_by
+    PROXY_PORTS ||--o| PROXY_SESSIONS : assigned_to
+
+    USERS {
+        guid Id
+        string UserName
+        string PasswordHash
+        string FirstName
+        string LastName
+        bool IsEnabled
+        datetime CreatedAt
+        datetime LastLoginAt
+    }
+
+    USER_IP_RULES {
+        guid Id
+        guid UserId
+        string IpOrCidr
+        enum IpRuleType
+        bool IsEnabled
+        datetime CreatedAt
+    }
+
+    METERS {
+        guid Id
+        string Name
+        string Model
+        string SerialNumber
+        bool IsEnabled
+        datetime CreatedAt
+        datetime UpdatedAt
+    }
+
+    METER_ENDPOINTS {
+        guid Id
+        guid MeterId
+        enum TransportType
+        string Host
+        int Port
+        bool IsPrimary
+        bool IsEnabled
+        datetime CreatedAt
+    }
+
+    PROXY_PORTS {
+        int Port PK
+        enum ProxyPortState
+        datetime ReservedAt
+        datetime LastUsedAt
+    }
+
+    PROXY_SESSIONS {
+        guid Id
+        guid UserId
+        guid MeterId
+        int ProxyPort
+        enum SessionStatus
+        enum ClientIpPolicy
+        string PinnedClientIp
+        datetime CreatedAt
+        datetime StartedAt
+        datetime LastActivityAt
+        datetime LeaseUntil
+        datetime EndedAt
+        long BytesFromClient
+        long BytesFromMeter
+        string FaultReason
+    }
+```
+
 ### Infrastructure Orchestration
 
 Heimdallr uses **.NET Aspire** for:
