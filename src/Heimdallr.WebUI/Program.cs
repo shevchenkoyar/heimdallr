@@ -1,25 +1,30 @@
+using Heimdallr.Infrastructure;
+using Heimdallr.Infrastructure.Database;
 using Heimdallr.WebUI;
 using Heimdallr.WebUI.Components;
+using Heimdallr.WebUI.Extensions;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-// Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.AddPresenterDependencies();
+builder.AddNpgsqlDbContext<ApplicationDbContext>(connectionName: "heimdallr-db");
+
+builder.Services
+    .AddPresentation()
+    .AddInfrastructure();
 
 WebApplication app = builder.Build();
 
 app.MapDefaultEndpoints();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
+    app.ApplyMigrations();
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -32,4 +37,4 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-app.Run();
+await app.RunAsync();

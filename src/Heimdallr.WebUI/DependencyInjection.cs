@@ -4,17 +4,14 @@ namespace Heimdallr.WebUI;
 
 public static class DependencyInjection
 {
-    extension(WebApplicationBuilder builder)
+    public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
-        public WebApplicationBuilder AddPresenterDependencies()
-        {
-            return builder.AddUiLibs();
-        }
+        return services.AddUiLibs();
+    }
 
-        private WebApplicationBuilder AddUiLibs()
-        {
-            builder.Services.AddMudServices();
-            return builder;
-        }
+    private static IServiceCollection AddUiLibs(this IServiceCollection services)
+    {
+        services.AddMudServices();
+        return services;
     }
 }
