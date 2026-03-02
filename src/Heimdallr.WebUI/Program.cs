@@ -24,6 +24,9 @@ app.MapDefaultEndpoints();
 if (app.Environment.IsDevelopment())
 {
     app.ApplyMigrations();
+}
+else
+{
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     app.UseHsts();
 }
