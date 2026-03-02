@@ -19,8 +19,7 @@ public sealed class MeterEndpointConfiguration : IEntityTypeConfiguration<MeterE
             .HasMaxLength(255)
             .IsRequired();
 
-        builder.Property(x => x.Port)
-            .IsRequired();
+        builder.Property(x => x.Port);
 
         builder.Property(x => x.IsEnabled)
             .IsRequired();
