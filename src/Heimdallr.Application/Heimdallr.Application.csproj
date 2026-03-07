@@ -2,4 +2,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Heimdallr.Domain\Heimdallr.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Scrutor" />
+  </ItemGroup>
 </Project>
