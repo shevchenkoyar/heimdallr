@@ -1,5 +1,8 @@
 @page "/auth"
+@using Heimdallr.Application.Common.Interfaces.Contracts
+@using Heimdallr.Application.Contracts.Users.Commands
 @layout AuthorizationLayout
+@inject ICommandHandler<AuthorizeCommand> Authorize
 
 <MudContainer MaxWidth="MaxWidth.False" Class="d-flex justify-center align-center min-h-screen">
     <MudItem xs="12" sm="8" md="6" lg="4">
@@ -8,6 +11,12 @@
             <MudTextField @bind-Value="Login" Label="Login" Variant="Variant.Outlined" Class="mb-3" FullWidth="true" />
             <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Outlined" InputType="InputType.Password" Class="mb-4" FullWidth="true" />
             <MudButton OnClick="Submit" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Login</MudButton>
+            @if (IsErrorShown)
+            {
+                <MudAlert Severity="Severity.Error" Class="mt-3" CloseIcon="@Icons.Material.Filled.FullscreenExit" CloseIconClicked="@(()=> IsErrorShown = false)">
+                    @ErrorMessage
+                </MudAlert>
+            }
         </MudPaper>
     </MudItem>
 </MudContainer>
@@ -15,6 +24,31 @@
 @code {
     private string Login { get; set; } = string.Empty;
     private string Password { get; set; } = string.Empty;
+    
+    private string ErrorMessage { get; set; } = string.Empty;
+    private bool IsErrorShown { get; set; } = false;
 
-    private void Submit() {}
+    private void CloseError()
+    {
+        IsErrorShown = false;
+    }
+    
+    private async Task Submit()
+    {
+        using var source = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+        
+        IsErrorShown = false;
+        ErrorMessage = string.Empty;
+        var authResult = await Authorize.Handle(new AuthorizeCommand(Login, Password), source.Token);
+
+        if (authResult.IsSuccess)
+        {
+            // Navigate to main menu
+            
+            return;
+        }
+        
+        ErrorMessage = authResult.Error.Description;
+        IsErrorShown = true;
+    }
 }

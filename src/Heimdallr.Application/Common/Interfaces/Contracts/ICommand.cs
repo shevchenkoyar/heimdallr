@@ -1,4 +1,4 @@
-namespace Heimdallr.Application.Common.Interfaces;
+namespace Heimdallr.Application.Common.Interfaces.Contracts;
 
 public interface ICommand : IBaseCommand;
 
