@@ -1,3 +1,4 @@
+using Heimdallr.Application;
 using Heimdallr.Infrastructure;
 using Heimdallr.Infrastructure.Database;
 using Heimdallr.WebUI;
@@ -14,6 +15,7 @@ builder.Services.AddRazorComponents()
 builder.AddNpgsqlDbContext<ApplicationDbContext>(connectionName: "heimdallr-db");
 
 builder.Services
+    .AddApplication()
     .AddPresentation()
     .AddInfrastructure();
 
