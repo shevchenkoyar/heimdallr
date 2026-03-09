@@ -1,6 +1,7 @@
 @page "/auth"
 @using Heimdallr.Application.Common.Interfaces.Contracts
 @using Heimdallr.Application.Contracts.Users.Commands
+@using Serilog
 @layout AuthorizationLayout
 @inject ICommandHandler<AuthorizeCommand> Authorize
 
@@ -13,7 +14,7 @@
             <MudButton OnClick="Submit" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Login</MudButton>
             @if (IsErrorShown)
             {
-                <MudAlert Severity="Severity.Error" Class="mt-3" CloseIcon="@Icons.Material.Filled.FullscreenExit" CloseIconClicked="@(()=> IsErrorShown = false)">
+                <MudAlert Severity="Severity.Error" Class="mt-3" CloseIcon="@Icons.Material.Filled.FullscreenExit" CloseIconClicked="CloseError">
                     @ErrorMessage
                 </MudAlert>
             }
@@ -26,7 +27,7 @@
     private string Password { get; set; } = string.Empty;
     
     private string ErrorMessage { get; set; } = string.Empty;
-    private bool IsErrorShown { get; set; } = false;
+    private bool IsErrorShown { get; set; }
 
     private void CloseError()
     {

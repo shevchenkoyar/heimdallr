@@ -11,6 +11,10 @@
       </PackageReference>
       <PackageReference Include="MudBlazor"/>
       <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+      <PackageReference Include="Serilog" />
+      <PackageReference Include="Serilog.AspNetCore" />
+      <PackageReference Include="Serilog.Sinks.Console" />
+      <PackageReference Include="Serilog.Sinks.File" />
     </ItemGroup>
 
     <ItemGroup>

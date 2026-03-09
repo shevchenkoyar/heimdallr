@@ -1,9 +1,10 @@
+using Heimdallr.Application.Common.Interfaces.Persistent;
 using Heimdallr.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Heimdallr.Infrastructure.Database;
 
-public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options), IDbContext
 {
     public DbSet<User> Users => Set<User>();
     
@@ -16,6 +17,8 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<ProxyPort> ProxyPorts => Set<ProxyPort>();
     
     public DbSet<ProxySession> ProxySessions => Set<ProxySession>();
+
+    async Task IDbContext.SaveChangesAsync(CancellationToken cancellationToken) => await SaveChangesAsync(cancellationToken);
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

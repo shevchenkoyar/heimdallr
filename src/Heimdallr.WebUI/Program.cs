@@ -4,8 +4,12 @@ using Heimdallr.Infrastructure.Database;
 using Heimdallr.WebUI;
 using Heimdallr.WebUI.Components;
 using Heimdallr.WebUI.Extensions;
+using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, loggerConfig) => 
+    loggerConfig.ReadFrom.Configuration(context.Configuration));
 
 builder.AddServiceDefaults();
 
@@ -15,8 +19,8 @@ builder.Services.AddRazorComponents()
 builder.AddNpgsqlDbContext<ApplicationDbContext>(connectionName: "heimdallr-db");
 
 builder.Services
-    .AddApplication()
     .AddPresentation()
+    .AddApplication()
     .AddInfrastructure();
 
 WebApplication app = builder.Build();
