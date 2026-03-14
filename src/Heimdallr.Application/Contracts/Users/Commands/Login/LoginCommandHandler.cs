@@ -3,18 +3,21 @@ using Heimdallr.Application.Common.Interfaces.Contracts;
 using Heimdallr.Application.Common.Interfaces.Persistent;
 using Heimdallr.Application.Common.Interfaces.Security;
 using Heimdallr.Application.Common.Monads;
+using Heimdallr.Domain.Constants.ErrorCodes;
 using Heimdallr.Domain.Entities;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
-namespace Heimdallr.Application.Contracts.Users.Commands;
+namespace Heimdallr.Application.Contracts.Users.Commands.Login;
 
 [UsedImplicitly]
-public class AuthorizeCommandHandler(IDbContext context, IPasswordHasher hasher) : ICommandHandler<AuthorizeCommand>
+public class LoginCommandHandler(IDbContext context, IPasswordHasher hasher) : ICommandHandler<LoginCommand>
 {
-    private readonly Error _authorizationFaulure = Error.NotFound("AUTHORIZATION_FAILURE", "Cant log in with this credentials");
-    
-    public async Task<Result> Handle(AuthorizeCommand command, CancellationToken cancellationToken)
+    private readonly Error _authorizationFailure = Error
+        .NotFound(UserActionErrorCodes.AuthorizationFailed, "Cant log in with this credentials");
+
+    public async Task<Result> Handle(LoginCommand command, CancellationToken cancellationToken)
     {
         Result<User> userResult = await FindUserByLogin(command.Login, cancellationToken);
 
@@ -24,9 +27,9 @@ public class AuthorizeCommandHandler(IDbContext context, IPasswordHasher hasher)
         }
         
         string passwordHash = await hasher.HashAsync(command.Password, cancellationToken);
-
+        
         return userResult.Value.PasswordHash != passwordHash 
-            ? Result.Failure(_authorizationFaulure) 
+            ? Result.Failure(_authorizationFailure) 
             : Result.Success();
     }
 
@@ -37,7 +40,7 @@ public class AuthorizeCommandHandler(IDbContext context, IPasswordHasher hasher)
             .FirstOrDefaultAsync(x=>x.UserName == login, cancellationToken);
 
         return user == null 
-            ? Result.Failure<User>(_authorizationFaulure) 
+            ? Result.Failure<User>(_authorizationFailure) 
             : Result.Success(user);
     }
 }

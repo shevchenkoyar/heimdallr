@@ -1,15 +1,13 @@
 using Heimdallr.Application;
+using Heimdallr.Application.Common.Interfaces.Contracts;
+using Heimdallr.Application.Contracts.Users.Commands.CreateUser;
 using Heimdallr.Infrastructure;
 using Heimdallr.Infrastructure.Database;
 using Heimdallr.WebUI;
 using Heimdallr.WebUI.Components;
 using Heimdallr.WebUI.Extensions;
-using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
-builder.Host.UseSerilog((context, loggerConfig) => 
-    loggerConfig.ReadFrom.Configuration(context.Configuration));
 
 builder.AddServiceDefaults();
 
@@ -47,3 +45,11 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 await app.RunAsync();
+
+ICommandHandler<CreateFirstAdminUserCommand> createAdminCommand =
+    app.Services.GetRequiredService<ICommandHandler<CreateFirstAdminUserCommand>>();
+
+using (var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+{
+    await createAdminCommand.Handle(new CreateFirstAdminUserCommand(), cancellationTokenSource.Token);
+}

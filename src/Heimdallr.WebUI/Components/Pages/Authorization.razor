@@ -1,9 +1,8 @@
 @page "/auth"
 @using Heimdallr.Application.Common.Interfaces.Contracts
-@using Heimdallr.Application.Contracts.Users.Commands
-@using Serilog
+@using Heimdallr.Application.Contracts.Users.Commands.Login
 @layout AuthorizationLayout
-@inject ICommandHandler<AuthorizeCommand> Authorize
+@inject ICommandHandler<LoginCommand> Authorize
 
 <MudContainer MaxWidth="MaxWidth.False" Class="d-flex justify-center align-center min-h-screen">
     <MudItem xs="12" sm="8" md="6" lg="4">
@@ -11,11 +10,17 @@
             <MudText Typo="Typo.h4" Color="Color.Primary" Class="mb-4">Authorization</MudText>
             <MudTextField @bind-Value="Login" Label="Login" Variant="Variant.Outlined" Class="mb-3" FullWidth="true" />
             <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Outlined" InputType="InputType.Password" Class="mb-4" FullWidth="true" />
-            <MudButton OnClick="Submit" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Login</MudButton>
+            <MudButton OnClick="@Submit" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Login</MudButton>
             @if (IsErrorShown)
             {
                 <MudAlert Severity="Severity.Error" Class="mt-3" CloseIcon="@Icons.Material.Filled.FullscreenExit" CloseIconClicked="CloseError">
                     @ErrorMessage
+                </MudAlert>
+            }
+            @if (IsAuthorizedShown)
+            {
+                <MudAlert Severity="Severity.Success" Class="mt-3" CloseIcon="@Icons.Material.Filled.FullscreenExit" CloseIconClicked="CloseError">
+                    Authorized successfully
                 </MudAlert>
             }
         </MudPaper>
@@ -28,6 +33,7 @@
     
     private string ErrorMessage { get; set; } = string.Empty;
     private bool IsErrorShown { get; set; }
+    private bool IsAuthorizedShown { get; set; }
 
     private void CloseError()
     {
@@ -40,16 +46,17 @@
         
         IsErrorShown = false;
         ErrorMessage = string.Empty;
-        var authResult = await Authorize.Handle(new AuthorizeCommand(Login, Password), source.Token);
-
-        if (authResult.IsSuccess)
-        {
-            // Navigate to main menu
-            
-            return;
-        }
         
-        ErrorMessage = authResult.Error.Description;
-        IsErrorShown = true;
+        
+        var authResult = await Authorize.Handle(new LoginCommand(Login, Password), source.Token);
+
+        IsAuthorizedShown = authResult.IsSuccess;
+        
+        IsErrorShown = authResult.IsFailure;
+
+        if (IsErrorShown)
+        {
+            ErrorMessage = authResult.Error.Description;
+        }
     }
 }

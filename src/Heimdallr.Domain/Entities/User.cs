@@ -25,4 +25,15 @@ public sealed class User
     public ICollection<UserIpRule> IpRules { get; set; } = new List<UserIpRule>();
     
     public ICollection<ProxySession> Sessions { get; set; } = new List<ProxySession>();
+
+    public static User Create(string username, string passwordHash) =>
+        new()
+        {
+            Id = Guid.NewGuid(),
+            UserName = username,
+            PasswordHash = passwordHash,
+            CreatedAt = DateTimeOffset.UtcNow,
+            IsEnabled = true,
+            Role = UserRole.User
+        };
 }
