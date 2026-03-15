@@ -4,28 +4,9 @@
 @layout AuthorizationLayout
 @inject ICommandHandler<LoginCommand> Authorize
 
-<MudContainer MaxWidth="MaxWidth.False" Class="d-flex justify-center align-center min-h-screen">
-    <MudItem xs="12" sm="8" md="6" lg="4">
-        <MudPaper Class="pa-6" Elevation="6">
-            <MudText Typo="Typo.h4" Color="Color.Primary" Class="mb-4">Authorization</MudText>
-            <MudTextField @bind-Value="Login" Label="Login" Variant="Variant.Outlined" Class="mb-3" FullWidth="true" />
-            <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Outlined" InputType="InputType.Password" Class="mb-4" FullWidth="true" />
-            <MudButton OnClick="@Submit" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Login</MudButton>
-            @if (IsErrorShown)
-            {
-                <MudAlert Severity="Severity.Error" Class="mt-3" CloseIcon="@Icons.Material.Filled.FullscreenExit" CloseIconClicked="CloseError">
-                    @ErrorMessage
-                </MudAlert>
-            }
-            @if (IsAuthorizedShown)
-            {
-                <MudAlert Severity="Severity.Success" Class="mt-3" CloseIcon="@Icons.Material.Filled.FullscreenExit" CloseIconClicked="CloseError">
-                    Authorized successfully
-                </MudAlert>
-            }
-        </MudPaper>
-    </MudItem>
-</MudContainer>
+<input class="bg-black text-white" type="text" @bind="Login"/>
+<input class="bg-black text-white" type="password" @bind="Password"/>
+<button class="bg-black text-white" @onclick="Submit">Отправить</button>
 
 @code {
     private string Login { get; set; } = string.Empty;
@@ -34,6 +15,11 @@
     private string ErrorMessage { get; set; } = string.Empty;
     private bool IsErrorShown { get; set; }
     private bool IsAuthorizedShown { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
 
     private void CloseError()
     {
