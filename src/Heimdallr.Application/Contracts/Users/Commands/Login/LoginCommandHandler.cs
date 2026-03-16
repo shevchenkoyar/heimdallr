@@ -7,7 +7,6 @@ using Heimdallr.Domain.Constants.ErrorCodes;
 using Heimdallr.Domain.Entities;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace Heimdallr.Application.Contracts.Users.Commands.Login;
 
@@ -15,7 +14,7 @@ namespace Heimdallr.Application.Contracts.Users.Commands.Login;
 public class LoginCommandHandler(IDbContext context, IPasswordHasher hasher) : ICommandHandler<LoginCommand>
 {
     private readonly Error _authorizationFailure = Error
-        .NotFound(UserActionErrorCodes.AuthorizationFailed, "Cant log in with this credentials");
+        .NotFound(UserActionErrorCodes.AuthorizationFailed, "Cant login with this credentials");
 
     public async Task<Result> Handle(LoginCommand command, CancellationToken cancellationToken)
     {
@@ -26,7 +25,7 @@ public class LoginCommandHandler(IDbContext context, IPasswordHasher hasher) : I
             return Result.Failure(userResult.Error);
         }
         
-        string passwordHash = await hasher.HashAsync(command.Password, cancellationToken);
+        string passwordHash = await hasher.HashAsync(command.Login, command.Password, cancellationToken);
         
         return userResult.Value.PasswordHash != passwordHash 
             ? Result.Failure(_authorizationFailure) 

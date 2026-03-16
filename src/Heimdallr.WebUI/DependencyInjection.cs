@@ -1,8 +1,5 @@
 using Heimdallr.Application.Common.Interfaces.Security;
 using Heimdallr.WebUI.Services.Security;
-using MudBlazor.Services;
-using Serilog;
-using Serilog.Core;
 
 namespace Heimdallr.WebUI;
 
@@ -12,12 +9,16 @@ public static class DependencyInjection
     {
         public IServiceCollection AddPresentation()
         {
-            return services.AddUiLibs();
+            return services
+                .AddUiLibs()
+                .AddSecurityServices();
         }
 
         private IServiceCollection AddUiLibs()
         {
-            services.AddMudServices();
+            services.AddRazorComponents()
+                .AddInteractiveServerComponents();
+            
             return services;
         }
 

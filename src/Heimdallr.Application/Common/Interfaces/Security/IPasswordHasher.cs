@@ -6,5 +6,5 @@ namespace Heimdallr.Application.Common.Interfaces.Security;
 /// </summary>
 public interface IPasswordHasher
 {
-    ValueTask<string> HashAsync(string password, CancellationToken cancellationToken);
+    ValueTask<string> HashAsync(string login, string password, CancellationToken cancellationToken);
 }

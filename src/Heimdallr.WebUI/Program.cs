@@ -11,9 +11,6 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-
 builder.AddNpgsqlDbContext<ApplicationDbContext>(connectionName: "heimdallr-db");
 
 builder.Services
@@ -44,12 +41,12 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-await app.RunAsync();
+using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+using IServiceScope scope = app.Services.CreateScope();
 
 ICommandHandler<CreateFirstAdminUserCommand> createAdminCommand =
-    app.Services.GetRequiredService<ICommandHandler<CreateFirstAdminUserCommand>>();
+    scope.ServiceProvider.GetRequiredService<ICommandHandler<CreateFirstAdminUserCommand>>();
 
-using (var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
-{
-    await createAdminCommand.Handle(new CreateFirstAdminUserCommand(), cancellationTokenSource.Token);
-}
+await createAdminCommand.Handle(new CreateFirstAdminUserCommand(), cancellationTokenSource.Token);
+
+await app.RunAsync();

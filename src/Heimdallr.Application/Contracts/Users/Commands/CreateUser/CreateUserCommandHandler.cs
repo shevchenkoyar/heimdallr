@@ -12,7 +12,7 @@ internal class CreateUserCommandHandler(IDbContext db, IPasswordHasher hasher) :
 {
     public async Task<Result> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {
-        string hash = await hasher.HashAsync(command.Password, cancellationToken);
+        string hash = await hasher.HashAsync(command.Username, command.Password, cancellationToken);
         
         var newUser = User.Create(command.Username, hash);
         
