@@ -1,7 +1,7 @@
 using Heimdallr.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 
-namespace Heimdallr.WebUI.Extensions;
+namespace Heimdallr.WebUI.Common.Extensions;
 
 internal static class MigrationExtensions
 {
