@@ -4,8 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Heimdallr.Infrastructure.Database.Configurations;
 
-
-public sealed class ProxyPortConfiguration : IEntityTypeConfiguration<ProxyPort>
+internal sealed class ProxyPortConfiguration : IEntityTypeConfiguration<ProxyPort>
 {
     public void Configure(EntityTypeBuilder<ProxyPort> builder)
     {

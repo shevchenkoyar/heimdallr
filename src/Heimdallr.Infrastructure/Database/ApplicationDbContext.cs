@@ -1,13 +1,15 @@
 using Heimdallr.Application.Common.Interfaces.Persistent;
 using Heimdallr.Domain.Entities;
+using Heimdallr.Infrastructure.Database.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Heimdallr.Infrastructure.Database;
 
-public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options), IDbContext
+internal sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options), IDbContext
 {
-    public DbSet<User> Users => Set<User>();
-    
+    public DbSet<User> DomainUsers => Set<User>();
+
     public DbSet<UserIpRule> UserIpRules => Set<UserIpRule>();
     
     public DbSet<Meter> Meters => Set<Meter>();

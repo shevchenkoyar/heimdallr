@@ -16,7 +16,7 @@ internal class CreateUserCommandHandler(IDbContext db, IPasswordHasher hasher) :
         
         var newUser = User.Create(command.Username, hash);
         
-        await db.Users.AddAsync(newUser, cancellationToken);
+        await db.DomainUsers.AddAsync(newUser, cancellationToken);
         
         return Result.Success();
     }

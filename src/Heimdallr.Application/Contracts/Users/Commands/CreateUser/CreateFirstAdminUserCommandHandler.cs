@@ -16,9 +16,9 @@ internal class CreateFirstAdminUserCommandHandler(IDbContext db, IPasswordHasher
     
     public async Task<Result> Handle(CreateFirstAdminUserCommand command, CancellationToken cancellationToken)
     {
-        db.Users.RemoveRange(db.Users);
+        db.DomainUsers.RemoveRange(db.DomainUsers);
         await db.SaveChangesAsync(cancellationToken);
-        User? user = await db.Users.AsNoTracking().FirstOrDefaultAsync(cancellationToken);
+        User? user = await db.DomainUsers.AsNoTracking().FirstOrDefaultAsync(cancellationToken);
  
         if (user == null)
         {
@@ -35,7 +35,7 @@ internal class CreateFirstAdminUserCommandHandler(IDbContext db, IPasswordHasher
                 CreatedAt = DateTimeOffset.UtcNow,
                 LastLoginAt = null
             };
-            await db.Users.AddAsync(firstAdminUser, cancellationToken);
+            await db.DomainUsers.AddAsync(firstAdminUser, cancellationToken);
             await db.SaveChangesAsync(cancellationToken);
         }
         

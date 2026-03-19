@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Heimdallr.Infrastructure.Database.Configurations;
 
-public sealed class MeterEndpointConfiguration : IEntityTypeConfiguration<MeterEndpoint>
+internal sealed class MeterEndpointConfiguration : IEntityTypeConfiguration<MeterEndpoint>
 {
     public void Configure(EntityTypeBuilder<MeterEndpoint> builder)
     {

@@ -34,7 +34,7 @@ public class LoginCommandHandler(IDbContext context, IPasswordHasher hasher) : I
 
     private async ValueTask<Result<User>> FindUserByLogin(string login, CancellationToken cancellationToken)
     {
-        User? user = await context.Users
+        User? user = await context.DomainUsers
             .AsNoTracking()
             .FirstOrDefaultAsync(x=>x.UserName == login, cancellationToken);
 

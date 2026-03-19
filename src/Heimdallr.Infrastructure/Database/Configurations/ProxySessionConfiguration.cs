@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Heimdallr.Infrastructure.Database.Configurations;
 
-public sealed class ProxySessionConfiguration : IEntityTypeConfiguration<ProxySession>
+internal sealed class ProxySessionConfiguration : IEntityTypeConfiguration<ProxySession>
 {
     public void Configure(EntityTypeBuilder<ProxySession> builder)
     {
