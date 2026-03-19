@@ -3,7 +3,6 @@ using Heimdallr.Application.Common.Interfaces.Security;
 using Heimdallr.Infrastructure.Database;
 using Heimdallr.Infrastructure.Database.Data;
 using Heimdallr.Infrastructure.Services;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
