@@ -1,5 +1,4 @@
 using System.Reflection;
-using Heimdallr.Application.Common.Interfaces;
 using Heimdallr.Application.Common.Interfaces.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 
