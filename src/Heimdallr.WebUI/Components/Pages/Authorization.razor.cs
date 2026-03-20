@@ -6,11 +6,13 @@ namespace Heimdallr.WebUI.Components.Pages;
 
 public partial class Authorization : ComponentBase
 {
-    private string Login { get; set; } = string.Empty;
-    private string Password { get; set; } = string.Empty;
+    [Inject] public required NavigationManager NavigationManager { get; set; }
+
+    private string Login { get; set; } = "Admin";
+    private string Password { get; set; } = "Admin12345!";
     private string ErrorMessage { get; set; } = string.Empty;
     private bool IsErrorShown { get; set; }
-    private bool IsAuthorizedShown { get; set; }
+    private bool IsAuthorized { get; set; }
 
     private void CloseError()
     {
@@ -26,13 +28,18 @@ public partial class Authorization : ComponentBase
         
         Result authResult = await Authorize.Handle(new LoginCommand(Login, Password), source.Token);
 
-        IsAuthorizedShown = authResult.IsSuccess;
+        IsAuthorized = authResult.IsSuccess;
 
         IsErrorShown = authResult.IsFailure;
 
         if (IsErrorShown)
         {
             ErrorMessage = authResult.Error.Description;
+        }
+
+        if (IsAuthorized)
+        {
+            NavigationManager.NavigateTo("/");
         }
     }
 }

@@ -12,12 +12,6 @@ namespace Heimdallr.Infrastructure.Services;
 internal class AuthorizationService(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager)
     : IAuthorizationService
 {
-    public ApplicationUser? AuthorizedUser { get; private set; }
-
-    public User? DomainUser { get; private set; }
-
-    public bool IsAuthorized => AuthorizedUser != null && DomainUser != null;
-
     public async Task<Result> RegisterAsync(string login, string password, CancellationToken token)
     {
         ApplicationUser? user = await userManager.FindByNameAsync(login);
@@ -45,9 +39,6 @@ internal class AuthorizationService(ApplicationDbContext dbContext, UserManager<
 
         await dbContext.DomainUsers.AddAsync(newDomainUser, token);
         await dbContext.SaveChangesAsync(token);
-
-        DomainUser = newDomainUser;
-        AuthorizedUser = newUser;
         
         return Result.Success();
     }
@@ -62,17 +53,6 @@ internal class AuthorizationService(ApplicationDbContext dbContext, UserManager<
                 ErrorType.Failure));
         }
         
-        AuthorizedUser = user;
-        DomainUser = await dbContext.DomainUsers.FindAsync([user.Id], token);
-        
         return Result.Success();
-    }
-
-    public Task LogoutAsync(CancellationToken cancellationToken)
-    {
-        AuthorizedUser = null;
-        DomainUser = null;
-
-        return Task.CompletedTask;
     }
 }
