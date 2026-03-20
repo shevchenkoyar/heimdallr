@@ -21,10 +21,13 @@ public static class DependencyInjection
         
         private IServiceCollection AddSecurityServices()
         {
-            services.AddTransient<IPasswordHasher, Sha256Pbkdf2PasswordHasher>();
+            services.AddScoped<IAuthorizationService, AuthorizationService>();
+            
             services.AddIdentityCore<ApplicationUser>()
                 .AddRoles<IdentityRole<Guid>>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddUserStore<ApplicationUser>()
+                .AddUserManager<ApplicationUser>();
             
             return services;
         }

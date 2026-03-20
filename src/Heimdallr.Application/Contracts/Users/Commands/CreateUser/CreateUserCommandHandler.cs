@@ -8,16 +8,8 @@ using JetBrains.Annotations;
 namespace Heimdallr.Application.Contracts.Users.Commands.CreateUser;
 
 [UsedImplicitly]
-internal class CreateUserCommandHandler(IDbContext db, IPasswordHasher hasher) : ICommandHandler<CreateUserCommand>
+internal class CreateUserCommandHandler(IAuthorizationService authorizationService) : ICommandHandler<CreateUserCommand>
 {
-    public async Task<Result> Handle(CreateUserCommand command, CancellationToken cancellationToken)
-    {
-        string hash = await hasher.HashAsync(command.Username, command.Password, cancellationToken);
-        
-        var newUser = User.Create(command.Username, hash);
-        
-        await db.DomainUsers.AddAsync(newUser, cancellationToken);
-        
-        return Result.Success();
-    }
+    public async Task<Result> Handle(CreateUserCommand command, CancellationToken cancellationToken) => 
+        await authorizationService.RegisterAsync(command.Username, command.Password, cancellationToken);
 }
