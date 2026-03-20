@@ -1,12 +1,12 @@
 using Heimdallr.Application.Common.Interfaces.Persistent;
 using Heimdallr.Domain.Entities;
-using Heimdallr.Infrastructure.Database.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Heimdallr.Infrastructure.Database;
 
-internal sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options), IDbContext
+internal sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<IdentityUser<Guid>, IdentityRole<Guid>, Guid>(options), IDbContext
 {
     public DbSet<User> DomainUsers => Set<User>();
 
@@ -24,6 +24,8 @@ internal sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+        
         modelBuilder.HasDefaultSchema(Schemas.Heimdallr);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
     }

@@ -3,6 +3,7 @@ using Heimdallr.Application.Common.Interfaces.Security;
 using Heimdallr.Infrastructure.Database;
 using Heimdallr.Infrastructure.Database.Data;
 using Heimdallr.Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +23,7 @@ public static class DependencyInjection
         {
             services.AddTransient<IPasswordHasher, Sha256Pbkdf2PasswordHasher>();
             services.AddIdentityCore<ApplicationUser>()
+                .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             
             return services;
