@@ -7,9 +7,7 @@ public sealed class User
     public Guid Id { get; set; }
 
     public string UserName { get; set; }
-
-    public string PasswordHash { get; set; }
-
+    
     public string? FirstName { get; set; }
     
     public string? LastName { get; set; }
@@ -26,14 +24,15 @@ public sealed class User
     
     public ICollection<ProxySession> Sessions { get; set; } = new List<ProxySession>();
 
-    public static User Create(string username, string passwordHash) =>
-        new()
+    public static User Create(Guid identityId, string username)
+    {
+        return new User
         {
-            Id = Guid.NewGuid(),
+            Id = identityId,
             UserName = username,
-            PasswordHash = passwordHash,
             CreatedAt = DateTimeOffset.UtcNow,
             IsEnabled = true,
             Role = UserRole.User
         };
+    }
 }

@@ -16,18 +16,17 @@ public static class DependencyInjection
     {
         public IServiceCollection AddInfrastructure(IConfiguration configuration) =>
             services
-                .AddSecurityServices()
+                .AddAuthorizationServices()
                 .AddDatabase(configuration);
-        
-        private IServiceCollection AddSecurityServices()
+
+        private IServiceCollection AddAuthorizationServices()
         {
             services.AddScoped<IAuthorizationService, AuthorizationService>();
             
             services.AddIdentityCore<ApplicationUser>()
                 .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddUserStore<ApplicationUser>()
-                .AddUserManager<ApplicationUser>();
+                .AddUserManager<UserManager<ApplicationUser>>();
             
             return services;
         }

@@ -14,7 +14,7 @@ internal static class BaseItemsCreationExtensions
 
     private static async Task CreateAdmin(IServiceScope scope)
     {
-        using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+        using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(5));
 
         ICommandHandler<CreateFirstAdminUserCommand> createAdminCommand =
             scope.ServiceProvider.GetRequiredService<ICommandHandler<CreateFirstAdminUserCommand>>();

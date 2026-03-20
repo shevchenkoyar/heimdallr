@@ -7,4 +7,6 @@ public interface IAuthorizationService
     Task<Result> RegisterAsync(string login, string password, CancellationToken cancellationToken);
     
     Task<Result> LoginAsync(string login, string password, CancellationToken cancellationToken);
+
+    Task LogoutAsync(CancellationToken cancellationToken);
 }

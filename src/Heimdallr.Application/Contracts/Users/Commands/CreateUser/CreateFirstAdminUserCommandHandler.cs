@@ -8,11 +8,12 @@ namespace Heimdallr.Application.Contracts.Users.Commands.CreateUser;
 [UsedImplicitly]
 internal class CreateFirstAdminUserCommandHandler(IAuthorizationService authorizationService) : ICommandHandler<CreateFirstAdminUserCommand>
 {
-    private const string AdminCreds = "Admin";
+    private const string AdminLogin = "Admin";
+    private const string AdminPassword = "Admin12345!";
     
     public async Task<Result> Handle(CreateFirstAdminUserCommand command, CancellationToken cancellationToken)
     {
-        await authorizationService.RegisterAsync(AdminCreds, AdminCreds, cancellationToken);
+        await authorizationService.RegisterAsync(AdminLogin, AdminPassword, cancellationToken);
         return Result.Success();
     }
 }
