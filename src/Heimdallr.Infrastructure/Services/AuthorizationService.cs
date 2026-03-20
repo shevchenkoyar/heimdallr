@@ -1,6 +1,7 @@
 using Heimdallr.Application.Common.Entities;
 using Heimdallr.Application.Common.Interfaces.Security;
 using Heimdallr.Application.Common.Monads;
+using Heimdallr.Infrastructure.Common.Extensions.Identity;
 using Heimdallr.Infrastructure.Database.Data;
 using Microsoft.AspNetCore.Identity;
 
@@ -27,14 +28,15 @@ internal class AuthorizationService(UserManager<ApplicationUser> userManager) : 
         
         IdentityResult result = await userManager.CreateAsync(newUser, password);
 
-        if (result.Succeeded)
+        if (result.Failure)
         {
-            AuthorizedUser = newUser;
-            return Result.Success();
+            return Result.Failure(new Error("REGISTRATION_FAILURE", string.Join($";{Environment.NewLine}",
+                result.Errors.Select(e => $"{{{e.Description}}}")), ErrorType.Failure));
         }
-        
-        return Result.Failure(new Error("REGISTRATION_FAILURE", string.Join($";{Environment.NewLine}", 
-            result.Errors.Select(e => $"{{{e.Description}}}")), ErrorType.Failure));
+
+        AuthorizedUser = newUser;
+        return Result.Success();
+
     }
 
     public async Task<Result> LoginAsync(string login, string password, CancellationToken token)
