@@ -14,11 +14,13 @@ internal class AuthorizationService(ApplicationDbContext dbContext, UserManager<
 {
     public async Task<Result> RegisterAsync(string login, string password, CancellationToken token)
     {
+        const string registrationFailureCode = "REGISTRATION_FAILURE";
+        
         ApplicationUser? user = await userManager.FindByNameAsync(login);
 
         if (user != null)
         {
-            return Result.Failure(new Error("REGISTRATION_FAILURE", "This login is already exists.",
+            return Result.Failure(new Error(registrationFailureCode, "This login is already exists.",
                 ErrorType.Failure));
         }
 
@@ -31,7 +33,7 @@ internal class AuthorizationService(ApplicationDbContext dbContext, UserManager<
 
         if (result.Failure)
         {
-            return Result.Failure(new Error("REGISTRATION_FAILURE", string.Join($";{Environment.NewLine}",
+            return Result.Failure(new Error(registrationFailureCode, string.Join($";{Environment.NewLine}",
                 result.Errors.Select(e => $"{{{e.Description}}}")), ErrorType.Failure));
         }
 
