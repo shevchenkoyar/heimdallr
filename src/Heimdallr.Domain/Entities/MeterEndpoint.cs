@@ -14,7 +14,9 @@ public sealed class MeterEndpoint
 
     public string Host { get; set; }
     
-    public int? Port { get; set; }
+    public int Port { get; set; }
+    
+    public string MetaJson { get; set; }
     
     public bool IsEnabled { get; set; } = true;
 
