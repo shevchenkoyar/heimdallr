@@ -1,6 +1,6 @@
 using System.Reflection;
 using Heimdallr.Application.Common.Interfaces.Contracts;
-using Heimdallr.Application.Common.Interfaces;
+using Heimdallr.Application.Common.Time;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Heimdallr.Application;
@@ -11,6 +11,8 @@ public static class DependencyInjection
     {
         public IServiceCollection AddApplication()
         {
+            services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
+            
             services.RegisterCqrsHandlers(AssemblyReference.Assembly);
             
             return services;
