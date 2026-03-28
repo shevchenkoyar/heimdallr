@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Heimdallr.Application.Contracts.ProxySessions.Commands.StartProxySession;
 
 [UsedImplicitly]
-public sealed class StartProxySessionHandler(
+public sealed class StartProxySessionCommandHandler(
     IApplicationDbContext dbContext,
     IProxyPortAllocator proxyPortAllocator,
     IProxyRuntimeManager proxyRuntimeManager,

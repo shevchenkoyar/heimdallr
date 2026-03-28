@@ -1,5 +1,4 @@
 using Heimdallr.Application.Common.Monads;
-using Heimdallr.Domain.Entities;
 
 namespace Heimdallr.Application.Common.Interfaces.Security;
 
