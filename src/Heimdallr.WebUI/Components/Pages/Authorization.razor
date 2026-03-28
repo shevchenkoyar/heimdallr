@@ -2,27 +2,28 @@
 @using Heimdallr.Application.Common.Interfaces.Contracts
 @using Heimdallr.Application.Contracts.Users.Commands.Login
 @using Heimdallr.WebUI.Common.Constants
+@using Heimdallr.WebUI.Components.Common.Input
 
 @layout AuthorizationLayout
 @inject ICommandHandler<LoginCommand> Authorize
 @rendermode InteractiveServer
 
 <div class="bg-gray-800 border border-red-200 mx-auto px-3 py-5 w-175 text-white">
-    <div class="flex flex-col p-8 gap-3">
+    <div class="flex flex-col p-5 gap-3">
         <div class="flex flex-col gap-1">
             <h2 class="text-2xl">Authorization</h2>
-            <hr/>
         </div>
         <div class="flex flex-col gap-1">
-            <label for="@ElementIds.AuthLoginId">User name</label>
-            <input id="@ElementIds.AuthLoginId" class="border" type="text" @bind="Login"/>
+            <label for="@ElementIds.AuthLoginId">Username</label>
+            <input id="@ElementIds.AuthLoginId" class="border border-red-200 px-3 py-2" type="text" @bind="Login"/>
         </div>
         <div class="flex flex-col gap-1">
-            <label for="@ElementIds.AuthPasswordId">Password</label>
-            <input id="@ElementIds.AuthPasswordId" class="border" type="password" @bind="Password"/>
+            <Password @bind-Value="Password"/>
         </div>
         <div class="flex">
-            <button class="border px-3 py-1" type="button" @onclick="Submit">Log in</button>
+            <button class="bg-red-200 text-gray-900 px-3 py-1 hover:cursor-pointer" type="button" @onclick="Submit">Log
+                in
+            </button>
         </div>
     </div>
 </div>

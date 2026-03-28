@@ -13,7 +13,7 @@ public partial class Authorization : ComponentBase
     private string ErrorMessage { get; set; } = string.Empty;
     private bool IsErrorShown { get; set; }
     private bool IsAuthorized { get; set; }
-
+    
     private async Task Submit()
     {
         using var source = new CancellationTokenSource(TimeSpan.FromSeconds(30));
