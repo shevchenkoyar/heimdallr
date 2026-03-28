@@ -6,7 +6,7 @@ namespace Heimdallr.Application.Common.Interfaces.Persistent;
 /// <summary>
 /// Used to access for db by application
 /// </summary>
-public interface IDbContext
+public interface IApplicationDbContext
 {
     DbSet<UserIpRule> UserIpRules { get; }
 

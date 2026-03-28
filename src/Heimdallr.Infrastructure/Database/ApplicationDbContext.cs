@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Heimdallr.Infrastructure.Database;
 
 internal sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options), IDbContext
+    : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options), IApplicationDbContext
 {
     public DbSet<UserIpRule> UserIpRules => Set<UserIpRule>();
     
@@ -20,7 +20,7 @@ internal sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext
     
     public DbSet<ProxySession> ProxySessions => Set<ProxySession>();
 
-    async Task IDbContext.SaveChangesAsync(CancellationToken cancellationToken) => await SaveChangesAsync(cancellationToken);
+    async Task IApplicationDbContext.SaveChangesAsync(CancellationToken cancellationToken) => await SaveChangesAsync(cancellationToken);
     
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Heimdallr.Infrastructure.Services;
 
-internal class AuthorizationService(ApplicationDbContext dbContext, UserManager<User> userManager)
+internal class AuthorizationService(ApplicationDbContext applicationDbContext, UserManager<User> userManager)
     : IAuthorizationService
 {
     public async Task<Result> RegisterAsync(string login, string firstName, string lastName, string password,
@@ -35,7 +35,7 @@ internal class AuthorizationService(ApplicationDbContext dbContext, UserManager<
                 result.Errors.Select(e => $"{{{e.Description}}}")), ErrorType.Failure));
         }
         
-        await dbContext.SaveChangesAsync(cancellationToken);
+        await applicationDbContext.SaveChangesAsync(cancellationToken);
         
         return Result.Success();
     }
