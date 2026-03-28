@@ -2,6 +2,8 @@
 using Heimdallr.Application.Common.Interfaces.Security;
 using Heimdallr.Infrastructure.Database;
 using Heimdallr.Infrastructure.Database.Data;
+using Heimdallr.Infrastructure.Proxying;
+using Heimdallr.Infrastructure.Proxying.Runtime;
 using Heimdallr.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +19,8 @@ public static class DependencyInjection
         public IServiceCollection AddInfrastructure(IConfiguration configuration) =>
             services
                 .AddAuthorizationServices()
-                .AddDatabase(configuration);
+                .AddDatabase(configuration)
+                .AddProxyServices();
 
         private IServiceCollection AddAuthorizationServices()
         {
@@ -37,6 +40,14 @@ public static class DependencyInjection
                 options.UseNpgsql(configuration.GetConnectionString("heimdallr-db")));
 
             services.AddDbContext<IDbContext, ApplicationDbContext>();
+            
+            return services;
+        }
+        
+        private IServiceCollection AddProxyServices()
+        {
+            services.AddSingleton<IProxyBridgeFactory, ProxyBridgeFactory>();
+            services.AddSingleton<IProxyRuntimeManager, ProxyRuntimeManager>();
             
             return services;
         }
