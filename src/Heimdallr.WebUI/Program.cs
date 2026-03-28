@@ -4,6 +4,7 @@ using Heimdallr.Infrastructure;
 using Heimdallr.WebUI;
 using Heimdallr.WebUI.Common.Extensions;
 using Heimdallr.WebUI.Components;
+using Heimdallr.WebUI.Endpoints;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,8 @@ app.MapRazorComponents<App>()
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapEndpoints();
 
 await app.CreateBaseItems();
 

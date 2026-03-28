@@ -1,10 +1,10 @@
 namespace Heimdallr.WebUI.Services.Configuration;
 
-public class JwtOptions(string audience, string issuer, string signingKey)
+public class JwtOptions
 {
-    public string Audience { get; init; } = audience;
+    public string Audience { get; init; }
 
-    public string Issuer { get; init; } = issuer;
+    public string Issuer { get; init; }
 
-    public string SigningKey { get; init; } = signingKey;
+    public string SigningKey { get; init; }
 }

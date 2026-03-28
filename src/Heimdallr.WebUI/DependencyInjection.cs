@@ -1,8 +1,9 @@
 using Heimdallr.WebUI.Endpoints;
 using Heimdallr.WebUI.Services.Configuration;
 using Heimdallr.WebUI.Services.Security;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace Heimdallr.WebUI;
 
@@ -16,7 +17,7 @@ public static class DependencyInjection
                 .CreateOptions(configuration)
                 .AddEndpoints()
                 .AddUiLibs()
-                .AddSecurityServices();
+                .AddSecurityServices(configuration);
         }
 
         private IServiceCollection AddUiLibs()
@@ -29,21 +30,45 @@ public static class DependencyInjection
 
         private IServiceCollection CreateOptions(IConfiguration configuration)
         {
-            services.AddOptions<JwtOptions>(configuration.GetSection("JwtOptions").Key);
+            services.Configure<JwtOptions>(configuration.GetSection("JwtOptions"));
 
             return services;
         }
-        
-        private IServiceCollection AddSecurityServices()
+
+        private IServiceCollection AddSecurityServices(IConfiguration configuration)
         {
             services.AddTransient<JwtTokenProvider>();
-            
-            services.AddAuthentication()
-                .AddCookie(IdentityConstants.BearerScheme, options => options.LoginPath = "/auth")
-                .AddBearerToken(IdentityConstants.BearerScheme);
-            
+
+            ServiceProvider provider = services.BuildServiceProvider();
+
+            using (IServiceScope scope = provider.CreateScope())
+            {
+                IOptions<JwtOptions> jwtOptions = scope.ServiceProvider.GetRequiredService<IOptions<JwtOptions>>();
+                services.AddAuthentication(options =>
+                    {
+                        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    })
+                    .AddJwtBearer(options =>
+                    {
+                        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidateAudience = true,
+                            ValidateLifetime = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidIssuer = jwtOptions.Value.Issuer,
+                            ValidAudience = jwtOptions.Value.Audience,
+                            IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
+                                System.Text.Encoding.UTF8.GetBytes(jwtOptions.Value.SigningKey ??
+                                                                   throw new InvalidOperationException(
+                                                                       "Secret key must be provided.")))
+                        };
+                    });
+            }
+
             services.AddAuthorization();
-            
+
             return services;
         }
 
