@@ -1,7 +1,11 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Heimdallr.Application.Common.Interfaces.Contracts;
 using Heimdallr.Application.Common.Monads;
+using Heimdallr.Application.Common.Time;
 using Heimdallr.Application.Contracts.Users.Commands.Login;
+using Heimdallr.WebUI.Services.Configuration;
+using Heimdallr.WebUI.Services.Security;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 
@@ -18,16 +22,28 @@ internal class Authorization : IEndpoint
                 AuthorizationRequest request,
                 ICommandHandler<LoginCommand, List<Claim>> handler,
                 HttpContext httpContext,
+                JwtTokenProvider jwtTokenProvider,
+                IDateTimeProvider dateTimeProvider,
                 CancellationToken token) =>
             {
-                Result result = await handler.Handle(new LoginCommand(request.Username, request.Password), token);
-                httpContext.Response.Cookies.Append(IdentityConstants.BearerScheme, "token", new CookieOptions
+                Result<List<Claim>> result =
+                    await handler.Handle(new LoginCommand(request.Username, request.Password), token);
+
+                if (result.IsFailure)
+                {
+                    return Results.Problem();
+                }
+
+                httpContext.Response.Cookies.Append(IdentityConstants.BearerScheme,
+                    jwtTokenProvider.GetJwtToken(result.Value),
+                    new CookieOptions
                 {
                     HttpOnly = true,
-                    Secure = true
+                    Secure = true,
+                    Expires = dateTimeProvider.UtcNow.AddHours(12)
                 });
 
-
+                
                 return result.IsSuccess ? Results.Ok() : Results.Problem();
             })
             .AllowAnonymous();

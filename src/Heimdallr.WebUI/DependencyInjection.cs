@@ -1,4 +1,6 @@
 using Heimdallr.WebUI.Endpoints;
+using Heimdallr.WebUI.Services.Configuration;
+using Heimdallr.WebUI.Services.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -8,9 +10,10 @@ public static class DependencyInjection
 {
     extension(IServiceCollection services)
     {
-        public IServiceCollection AddPresentation()
+        public IServiceCollection AddPresentation(IConfiguration configuration)
         {
             return services
+                .CreateOptions(configuration)
                 .AddEndpoints()
                 .AddUiLibs()
                 .AddSecurityServices();
@@ -24,8 +27,17 @@ public static class DependencyInjection
             return services;
         }
 
+        private IServiceCollection CreateOptions(IConfiguration configuration)
+        {
+            services.AddOptions<JwtOptions>(configuration.GetSection("JwtOptions").Key);
+
+            return services;
+        }
+        
         private IServiceCollection AddSecurityServices()
         {
+            services.AddTransient<JwtTokenProvider>();
+            
             services.AddAuthentication()
                 .AddCookie(IdentityConstants.BearerScheme, options => options.LoginPath = "/auth")
                 .AddBearerToken(IdentityConstants.BearerScheme);

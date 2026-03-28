@@ -1,4 +1,5 @@
 using Heimdallr.Application;
+using Heimdallr.Aspire.ServiceDefaults;
 using Heimdallr.Infrastructure;
 using Heimdallr.WebUI;
 using Heimdallr.WebUI.Common.Extensions;
@@ -9,7 +10,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 builder.Services
-    .AddPresentation()
+    .AddPresentation(builder.Configuration)
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
