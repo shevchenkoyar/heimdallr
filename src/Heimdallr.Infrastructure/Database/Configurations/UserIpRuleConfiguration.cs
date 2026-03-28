@@ -4,8 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Heimdallr.Infrastructure.Database.Configurations;
 
-
-public sealed class UserIpRuleConfiguration : IEntityTypeConfiguration<UserIpRule>
+internal sealed class UserIpRuleConfiguration : IEntityTypeConfiguration<UserIpRule>
 {
     public void Configure(EntityTypeBuilder<UserIpRule> builder)
     {

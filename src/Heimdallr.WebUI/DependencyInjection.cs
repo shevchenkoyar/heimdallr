@@ -1,17 +1,34 @@
-using MudBlazor.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace Heimdallr.WebUI;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddPresentation(this IServiceCollection services)
+    extension(IServiceCollection services)
     {
-        return services.AddUiLibs();
-    }
+        public IServiceCollection AddPresentation()
+        {
+            return services
+                .AddUiLibs()
+                .AddSecurityServices();
+        }
 
-    private static IServiceCollection AddUiLibs(this IServiceCollection services)
-    {
-        services.AddMudServices();
-        return services;
+        private IServiceCollection AddUiLibs()
+        {
+            services.AddRazorComponents()
+                .AddInteractiveServerComponents();
+            
+            return services;
+        }
+
+        private IServiceCollection AddSecurityServices()
+        {
+            services.AddAuthentication()
+                .AddBearerToken(IdentityConstants.BearerScheme);
+            
+            services.AddAuthorization();
+            
+            return services;
+        }
     }
 }

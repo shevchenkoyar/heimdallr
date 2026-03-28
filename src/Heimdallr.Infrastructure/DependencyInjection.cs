@@ -1,11 +1,54 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Heimdallr.Application.Common.Interfaces.Persistent;
+using Heimdallr.Application.Common.Interfaces.Security;
+using Heimdallr.Infrastructure.Database;
+using Heimdallr.Infrastructure.Database.Data;
+using Heimdallr.Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Heimdallr.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    extension(IServiceCollection services)
     {
-        return services;
+        public IServiceCollection AddInfrastructure(IConfiguration configuration) =>
+            services
+                .AddAuthorizationServices()
+                .AddDatabase(configuration);
+
+        private IServiceCollection AddAuthorizationServices()
+        {
+            services.AddScoped<IAuthorizationService, AuthorizationService>();
+
+            services.AddIdentityCore<User>()
+                .AddRoles<IdentityRole<Guid>>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddUserManager<UserManager<User>>();
+            
+            return services;
+        }
+
+        private IServiceCollection AddDatabase(IConfiguration configuration)
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(configuration.GetConnectionString("heimdallr-db")));
+
+            services.AddDbContext<IDbContext, ApplicationDbContext>();
+            
+            return services;
+        }
+    }
+
+    extension(IServiceProvider serviceProvider)
+    {
+        public void ApplyMigrations()
+        {
+            using IServiceScope scope = serviceProvider.CreateScope();
+            ApplicationDbContext context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            context.Database.Migrate();
+        }
     }
 }

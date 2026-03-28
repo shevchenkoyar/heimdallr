@@ -1,25 +1,15 @@
-using Heimdallr.Domain.Entities;
+using Heimdallr.Infrastructure.Database.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Heimdallr.Infrastructure.Database.Configurations;
 
-public sealed class UserConfiguration : IEntityTypeConfiguration<User>
+internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.ToTable("users");
         
-        builder.HasKey(x => x.Id);
-
-        builder.Property(x => x.UserName)
-            .HasMaxLength(100)
-            .IsRequired();
-
-        builder.Property(x => x.PasswordHash)
-            .HasMaxLength(500)
-            .IsRequired();
-
         builder.Property(x => x.FirstName)
             .HasMaxLength(100);
 
@@ -34,17 +24,14 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(x => x.CreatedAt)
             .IsRequired();
-
-        builder.HasIndex(x => x.UserName)
-            .IsUnique();
-
+        
         builder.HasMany(x => x.IpRules)
-            .WithOne(x => x.User)
+            .WithOne()
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(x => x.Sessions)
-            .WithOne(x => x.User)
+            .WithOne()
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Restrict);
     }

@@ -1,23 +1,20 @@
 using Heimdallr.Application;
 using Heimdallr.Infrastructure;
-using Heimdallr.Infrastructure.Database;
 using Heimdallr.WebUI;
+using Heimdallr.WebUI.Common.Extensions;
 using Heimdallr.WebUI.Components;
-using Heimdallr.WebUI.Extensions;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-
-builder.AddNpgsqlDbContext<ApplicationDbContext>(connectionName: "heimdallr-db");
-
 builder.Services
     .AddApplication()
     .AddPresentation()
-    .AddInfrastructure();
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration);
+
+builder.Services.AddAuthentication();
 
 WebApplication app = builder.Build();
 
@@ -25,7 +22,7 @@ app.MapDefaultEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
-    app.ApplyMigrations();
+    app.Services.ApplyMigrations();
 }
 else
 {
@@ -41,5 +38,10 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+await app.CreateBaseItems();
 
 await app.RunAsync();

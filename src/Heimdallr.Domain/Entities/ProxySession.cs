@@ -8,8 +8,6 @@ public sealed class ProxySession
 
     public Guid UserId { get; set; }
     
-    public User User { get; set; }
-
     public Guid MeterId { get; set; }
     
     public Meter Meter { get; set; }

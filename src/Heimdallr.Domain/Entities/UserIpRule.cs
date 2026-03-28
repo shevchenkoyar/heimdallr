@@ -8,8 +8,6 @@ public sealed class UserIpRule
 
     public Guid UserId { get; set; }
     
-    public User User { get; set; }
-
     public string IpOrCidr { get; set; }
     
     public IpRuleType Type { get; set; } = IpRuleType.SingleIp;

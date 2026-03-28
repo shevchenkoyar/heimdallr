@@ -1,9 +1,7 @@
-@inherits BaseLayout
+@inherits LayoutComponentBase
 
-<MudThemeProvider IsDarkMode="true" Theme="HeimdallrTheme"/>
-
-<MudLayout>
-    <MudMainContent>
-           @Body
-    </MudMainContent>
-</MudLayout>
+<div class="h-screen w-screen">
+    <div class="w-full h-full flex flex-column items-center">
+        @Body
+    </div>
+</div>
