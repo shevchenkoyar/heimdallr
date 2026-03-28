@@ -1,5 +1,6 @@
 ﻿using Heimdallr.Application.Common.Interfaces.Persistent;
 using Heimdallr.Application.Common.Interfaces.Security;
+using Heimdallr.Application.Common.Runtime;
 using Heimdallr.Infrastructure.Database;
 using Heimdallr.Infrastructure.Database.Data;
 using Heimdallr.Infrastructure.Proxying;
@@ -48,6 +49,8 @@ public static class DependencyInjection
         {
             services.AddSingleton<IProxyBridgeFactory, ProxyBridgeFactory>();
             services.AddSingleton<IProxyRuntimeManager, ProxyRuntimeManager>();
+            
+            services.AddScoped<IProxyPortAllocator, ProxyPortAllocator>();
             
             return services;
         }
