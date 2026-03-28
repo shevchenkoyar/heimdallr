@@ -7,9 +7,4 @@ namespace Heimdallr.WebUI.Components.Pages;
 public partial class Home : ComponentBase
 {
     [Inject] public required NavigationManager NavigationManager { get; set; }
-    
-    protected override async Task OnInitializedAsync()
-    {
-        
-    }
 }

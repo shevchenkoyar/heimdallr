@@ -16,17 +16,17 @@ namespace Heimdallr.Infrastructure.Database.Migrations
     partial class Removedkeyduplication
     {
         /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder builder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
+            builder
                 .HasDefaultSchema("heimdallr")
                 .HasAnnotation("ProductVersion", "10.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(builder);
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.Meter", b =>
+            builder.Entity("Heimdallr.Domain.Entities.Meter", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,7 +63,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("meters", "heimdallr");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.MeterEndpoint", b =>
+            builder.Entity("Heimdallr.Domain.Entities.MeterEndpoint", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -96,7 +96,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("meter_endpoints", "heimdallr");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.ProxyPort", b =>
+            builder.Entity("Heimdallr.Domain.Entities.ProxyPort", b =>
                 {
                     b.Property<int>("Port")
                         .ValueGeneratedOnAdd()
@@ -118,7 +118,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("proxy_ports", "heimdallr");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.ProxySession", b =>
+            builder.Entity("Heimdallr.Domain.Entities.ProxySession", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -190,7 +190,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("proxy_sessions", "heimdallr");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.UserIpRule", b =>
+            builder.Entity("Heimdallr.Domain.Entities.UserIpRule", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -227,7 +227,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("user_ip_rules", "heimdallr");
                 });
 
-            modelBuilder.Entity("Heimdallr.Infrastructure.Database.Data.User", b =>
+            builder.Entity("Heimdallr.Infrastructure.Database.Data.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -317,7 +317,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("users", "heimdallr");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
+            builder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -344,7 +344,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("AspNetRoles", "heimdallr");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+            builder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -368,7 +368,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("AspNetRoleClaims", "heimdallr");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+            builder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -392,7 +392,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("AspNetUserClaims", "heimdallr");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+            builder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("text");
@@ -413,7 +413,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("AspNetUserLogins", "heimdallr");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+            builder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -428,7 +428,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("AspNetUserRoles", "heimdallr");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+            builder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -447,7 +447,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("AspNetUserTokens", "heimdallr");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.MeterEndpoint", b =>
+            builder.Entity("Heimdallr.Domain.Entities.MeterEndpoint", b =>
                 {
                     b.HasOne("Heimdallr.Domain.Entities.Meter", "Meter")
                         .WithMany("Endpoints")
@@ -458,7 +458,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.Navigation("Meter");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.ProxySession", b =>
+            builder.Entity("Heimdallr.Domain.Entities.ProxySession", b =>
                 {
                     b.HasOne("Heimdallr.Domain.Entities.Meter", "Meter")
                         .WithMany("Sessions")
@@ -483,7 +483,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.Navigation("Port");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.UserIpRule", b =>
+            builder.Entity("Heimdallr.Domain.Entities.UserIpRule", b =>
                 {
                     b.HasOne("Heimdallr.Infrastructure.Database.Data.User", null)
                         .WithMany("IpRules")
@@ -492,7 +492,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+            builder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
@@ -501,7 +501,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+            builder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.HasOne("Heimdallr.Infrastructure.Database.Data.User", null)
                         .WithMany()
@@ -510,7 +510,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+            builder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.HasOne("Heimdallr.Infrastructure.Database.Data.User", null)
                         .WithMany()
@@ -519,7 +519,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+            builder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
@@ -534,7 +534,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+            builder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.HasOne("Heimdallr.Infrastructure.Database.Data.User", null)
                         .WithMany()
@@ -543,14 +543,14 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.Meter", b =>
+            builder.Entity("Heimdallr.Domain.Entities.Meter", b =>
                 {
                     b.Navigation("Endpoints");
 
                     b.Navigation("Sessions");
                 });
 
-            modelBuilder.Entity("Heimdallr.Infrastructure.Database.Data.User", b =>
+            builder.Entity("Heimdallr.Infrastructure.Database.Data.User", b =>
                 {
                     b.Navigation("IpRules");
 

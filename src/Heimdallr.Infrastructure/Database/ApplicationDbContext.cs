@@ -22,11 +22,11 @@ internal sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext
 
     async Task IDbContext.SaveChangesAsync(CancellationToken cancellationToken) => await SaveChangesAsync(cancellationToken);
     
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(modelBuilder);
+        base.OnModelCreating(builder);
         
-        modelBuilder.HasDefaultSchema(Schemas.Heimdallr);
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        builder.HasDefaultSchema(Schemas.Heimdallr);
+        builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
     }
 }

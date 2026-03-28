@@ -16,17 +16,17 @@ namespace Heimdallr.Infrastructure.Database.Migrations
     partial class Added_Nullability_On_Port
     {
         /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder builder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
+            builder
                 .HasDefaultSchema("heimdallr")
                 .HasAnnotation("ProductVersion", "10.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(builder);
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.Meter", b =>
+            builder.Entity("Heimdallr.Domain.Entities.Meter", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,7 +63,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("meters", "heimdallr");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.MeterEndpoint", b =>
+            builder.Entity("Heimdallr.Domain.Entities.MeterEndpoint", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -96,7 +96,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("meter_endpoints", "heimdallr");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.ProxyPort", b =>
+            builder.Entity("Heimdallr.Domain.Entities.ProxyPort", b =>
                 {
                     b.Property<int>("Port")
                         .ValueGeneratedOnAdd()
@@ -118,7 +118,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("proxy_ports", "heimdallr");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.ProxySession", b =>
+            builder.Entity("Heimdallr.Domain.Entities.ProxySession", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -190,7 +190,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("proxy_sessions", "heimdallr");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.User", b =>
+            builder.Entity("Heimdallr.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -234,7 +234,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("users", "heimdallr");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.UserIpRule", b =>
+            builder.Entity("Heimdallr.Domain.Entities.UserIpRule", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -271,7 +271,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.ToTable("user_ip_rules", "heimdallr");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.MeterEndpoint", b =>
+            builder.Entity("Heimdallr.Domain.Entities.MeterEndpoint", b =>
                 {
                     b.HasOne("Heimdallr.Domain.Entities.Meter", "Meter")
                         .WithMany("Endpoints")
@@ -282,7 +282,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.Navigation("Meter");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.ProxySession", b =>
+            builder.Entity("Heimdallr.Domain.Entities.ProxySession", b =>
                 {
                     b.HasOne("Heimdallr.Domain.Entities.Meter", "Meter")
                         .WithMany("Sessions")
@@ -309,7 +309,7 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.UserIpRule", b =>
+            builder.Entity("Heimdallr.Domain.Entities.UserIpRule", b =>
                 {
                     b.HasOne("Heimdallr.Domain.Entities.User", "User")
                         .WithMany("IpRules")
@@ -320,14 +320,14 @@ namespace Heimdallr.Infrastructure.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.Meter", b =>
+            builder.Entity("Heimdallr.Domain.Entities.Meter", b =>
                 {
                     b.Navigation("Endpoints");
 
                     b.Navigation("Sessions");
                 });
 
-            modelBuilder.Entity("Heimdallr.Domain.Entities.User", b =>
+            builder.Entity("Heimdallr.Domain.Entities.User", b =>
                 {
                     b.Navigation("IpRules");
 

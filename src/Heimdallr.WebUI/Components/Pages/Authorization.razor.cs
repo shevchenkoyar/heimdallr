@@ -14,11 +14,6 @@ public partial class Authorization : ComponentBase
     private bool IsErrorShown { get; set; }
     private bool IsAuthorized { get; set; }
 
-    private void CloseError()
-    {
-        IsErrorShown = false;
-    }
-
     private async Task Submit()
     {
         using var source = new CancellationTokenSource(TimeSpan.FromSeconds(30));

@@ -12,7 +12,7 @@ internal class AuthorizationService(ApplicationDbContext dbContext, UserManager<
     : IAuthorizationService
 {
     public async Task<Result> RegisterAsync(string login, string firstName, string lastName, string password,
-        CancellationToken token)
+        CancellationToken cancellationToken)
     {
         const string registrationFailureCode = "REGISTRATION_FAILURE";
 
@@ -34,12 +34,12 @@ internal class AuthorizationService(ApplicationDbContext dbContext, UserManager<
                 result.Errors.Select(e => $"{{{e.Description}}}")), ErrorType.Failure));
         }
         
-        await dbContext.SaveChangesAsync(token);
+        await dbContext.SaveChangesAsync(cancellationToken);
         
         return Result.Success();
     }
 
-    public async Task<Result> LoginAsync(string login, string password, CancellationToken token)
+    public async Task<Result> LoginAsync(string login, string password, CancellationToken cancellationToken)
     {
         User? user = await userManager.FindByNameAsync(login);
 
