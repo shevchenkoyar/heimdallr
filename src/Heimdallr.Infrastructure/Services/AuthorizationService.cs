@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Heimdallr.Application.Common.Entities;
 using Heimdallr.Application.Common.Interfaces.Security;
 using Heimdallr.Application.Common.Monads;
@@ -39,16 +40,17 @@ internal class AuthorizationService(ApplicationDbContext applicationDbContext, U
         return Result.Success();
     }
 
-    public async Task<Result> LoginAsync(string login, string password, CancellationToken cancellationToken)
+    public async Task<Result<List<Claim>>> LoginAsync(string login, string password,
+        CancellationToken cancellationToken)
     {
         User? user = await userManager.FindByNameAsync(login);
 
         if (user == null || !await userManager.CheckPasswordAsync(user, password))
         {
-            return Result.Failure(new Error("AUTHORIZATION_FAILURE", "Your password or login is invalid.",
+            return Result.Failure<List<Claim>>(new Error("AUTHORIZATION_FAILURE", "Your password or login is invalid.",
                 ErrorType.Failure));
         }
-        
-        return Result.Success();
+
+        return Result.Success<List<Claim>>([new Claim(ClaimTypes.Name, user.UserName ?? "ЛОХ")]);
     }
 }

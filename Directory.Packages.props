@@ -5,6 +5,8 @@
   <ItemGroup>
     <!-- Global -->
     <PackageVersion Include="JetBrains.Annotations" Version="2025.2.4" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5"/>
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.5"/>
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.22.0.136894">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -33,6 +35,7 @@
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageVersion Include="Serilog.Sinks.File" Version="8.0.0-nblumhardt-02322" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.17.0"/>
     <PackageVersion Include="System.IO.Ports" Version="10.0.5" />
   </ItemGroup>
 </Project>

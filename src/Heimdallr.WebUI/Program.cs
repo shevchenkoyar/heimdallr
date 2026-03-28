@@ -1,16 +1,17 @@
 using Heimdallr.Application;
+using Heimdallr.Aspire.ServiceDefaults;
 using Heimdallr.Infrastructure;
 using Heimdallr.WebUI;
 using Heimdallr.WebUI.Common.Extensions;
 using Heimdallr.WebUI.Components;
+using Heimdallr.WebUI.Endpoints;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
 builder.Services
-    .AddApplication()
-    .AddPresentation()
+    .AddPresentation(builder.Configuration)
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
@@ -41,6 +42,8 @@ app.MapRazorComponents<App>()
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapEndpoints();
 
 await app.CreateBaseItems();
 
