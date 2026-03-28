@@ -51,6 +51,6 @@ internal class AuthorizationService(ApplicationDbContext applicationDbContext, U
                 ErrorType.Failure));
         }
 
-        return Result.Success<List<Claim>>([]);
+        return Result.Success<List<Claim>>([new Claim(ClaimTypes.Name, user.UserName ?? "ЛОХ")]);
     }
 }

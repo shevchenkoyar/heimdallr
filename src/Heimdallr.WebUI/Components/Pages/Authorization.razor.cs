@@ -25,7 +25,7 @@ public partial class Authorization : ComponentBase
 
         if (result)
         {
-            NavigationManager.NavigateTo("/home", true);
+            NavigationManager.NavigateTo("/", true);
         }
     }
 }

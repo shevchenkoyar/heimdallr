@@ -2,6 +2,7 @@ using Heimdallr.WebUI.Endpoints;
 using Heimdallr.WebUI.Services.Configuration;
 using Heimdallr.WebUI.Services.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
@@ -17,7 +18,7 @@ public static class DependencyInjection
                 .CreateOptions(configuration)
                 .AddEndpoints()
                 .AddUiLibs()
-                .AddSecurityServices(configuration);
+                .AddSecurityServices();
         }
 
         private IServiceCollection AddUiLibs()
@@ -35,7 +36,7 @@ public static class DependencyInjection
             return services;
         }
 
-        private IServiceCollection AddSecurityServices(IConfiguration configuration)
+        private IServiceCollection AddSecurityServices()
         {
             services.AddTransient<JwtTokenProvider>();
 
@@ -51,6 +52,19 @@ public static class DependencyInjection
                     })
                     .AddJwtBearer(options =>
                     {
+                        options.Events = new JwtBearerEvents
+                        {
+                            OnMessageReceived = context =>
+                            {
+                                string? token = context.Request.Cookies[IdentityConstants.BearerScheme];
+                                if (!string.IsNullOrEmpty(token))
+                                {
+                                    context.Token = token;
+                                }
+
+                                return Task.CompletedTask;
+                            }
+                        };
                         options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                         {
                             ValidateIssuer = true,

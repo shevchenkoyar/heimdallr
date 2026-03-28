@@ -17,7 +17,8 @@ public partial class Home : ComponentBase
     {
         AuthenticationState = await AuthStateProvider.GetAuthenticationStateAsync();
 
-        if (AuthenticationState.User.Identity is not { IsAuthenticated: false })
+        if (AuthenticationState.User == null || AuthenticationState.User.Identity == null ||
+            !AuthenticationState.User.Identity.IsAuthenticated)
         {
             NavigationManager.NavigateTo("/auth");
         }
