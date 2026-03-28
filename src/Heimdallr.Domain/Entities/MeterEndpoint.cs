@@ -19,6 +19,8 @@ public sealed class MeterEndpoint
     public string MetaJson { get; set; }
     
     public bool IsEnabled { get; set; } = true;
+    
+    public bool IsPrimary { get; set; } = true;
 
     public DateTimeOffset CreatedAt { get; set; }
 }
