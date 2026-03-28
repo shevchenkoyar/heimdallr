@@ -8,10 +8,8 @@ using Microsoft.EntityFrameworkCore;
 namespace Heimdallr.Infrastructure.Database;
 
 internal sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>(options), IDbContext
+    : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options), IDbContext
 {
-    public DbSet<User> DomainUsers => Set<User>();
-
     public DbSet<UserIpRule> UserIpRules => Set<UserIpRule>();
     
     public DbSet<Meter> Meters => Set<Meter>();

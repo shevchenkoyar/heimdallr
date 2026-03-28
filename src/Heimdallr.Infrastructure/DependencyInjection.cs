@@ -22,11 +22,11 @@ public static class DependencyInjection
         private IServiceCollection AddAuthorizationServices()
         {
             services.AddScoped<IAuthorizationService, AuthorizationService>();
-            
-            services.AddIdentityCore<ApplicationUser>()
+
+            services.AddIdentityCore<User>()
                 .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddUserManager<UserManager<ApplicationUser>>();
+                .AddUserManager<UserManager<User>>();
             
             return services;
         }

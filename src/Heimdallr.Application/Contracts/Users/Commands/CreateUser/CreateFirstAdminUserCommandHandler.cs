@@ -13,7 +13,7 @@ internal class CreateFirstAdminUserCommandHandler(IAuthorizationService authoriz
     
     public async Task<Result> Handle(CreateFirstAdminUserCommand command, CancellationToken cancellationToken)
     {
-        await authorizationService.RegisterAsync(AdminLogin, AdminPassword, cancellationToken);
+        await authorizationService.RegisterAsync(AdminLogin, AdminLogin, AdminLogin, AdminPassword, cancellationToken);
         return Result.Success();
     }
 }

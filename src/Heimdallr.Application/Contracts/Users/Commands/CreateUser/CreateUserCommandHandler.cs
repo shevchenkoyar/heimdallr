@@ -8,6 +8,7 @@ namespace Heimdallr.Application.Contracts.Users.Commands.CreateUser;
 [UsedImplicitly]
 internal class CreateUserCommandHandler(IAuthorizationService authorizationService) : ICommandHandler<CreateUserCommand>
 {
-    public async Task<Result> Handle(CreateUserCommand command, CancellationToken cancellationToken) => 
-        await authorizationService.RegisterAsync(command.Username, command.Password, cancellationToken);
+    public async Task<Result> Handle(CreateUserCommand command, CancellationToken cancellationToken) =>
+        await authorizationService.RegisterAsync(command.Username, command.FirstName, command.LastName,
+            command.Password, cancellationToken);
 }

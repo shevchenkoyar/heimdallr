@@ -8,8 +8,6 @@ namespace Heimdallr.Application.Common.Interfaces.Persistent;
 /// </summary>
 public interface IDbContext
 {
-    DbSet<User> DomainUsers { get; }
-
     DbSet<UserIpRule> UserIpRules { get; }
 
     DbSet<Meter> Meters { get; }

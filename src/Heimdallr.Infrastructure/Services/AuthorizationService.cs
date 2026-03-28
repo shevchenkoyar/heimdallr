@@ -1,7 +1,6 @@
 using Heimdallr.Application.Common.Entities;
 using Heimdallr.Application.Common.Interfaces.Security;
 using Heimdallr.Application.Common.Monads;
-using Heimdallr.Domain.Entities;
 using Heimdallr.Infrastructure.Common.Extensions.Identity;
 using Heimdallr.Infrastructure.Database;
 using Heimdallr.Infrastructure.Database.Data;
@@ -9,14 +8,15 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Heimdallr.Infrastructure.Services;
 
-internal class AuthorizationService(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager)
+internal class AuthorizationService(ApplicationDbContext dbContext, UserManager<User> userManager)
     : IAuthorizationService
 {
-    public async Task<Result> RegisterAsync(string login, string password, CancellationToken token)
+    public async Task<Result> RegisterAsync(string login, string firstName, string lastName, string password,
+        CancellationToken token)
     {
         const string registrationFailureCode = "REGISTRATION_FAILURE";
-        
-        ApplicationUser? user = await userManager.FindByNameAsync(login);
+
+        User? user = await userManager.FindByNameAsync(login);
 
         if (user != null)
         {
@@ -24,11 +24,8 @@ internal class AuthorizationService(ApplicationDbContext dbContext, UserManager<
                 ErrorType.Failure));
         }
 
-        var newUser = new ApplicationUser
-        {
-            UserName = login,
-        };
-
+        var newUser = User.Create(login, firstName, lastName);
+        
         IdentityResult result = await userManager.CreateAsync(newUser, password);
 
         if (result.Failure)
@@ -36,10 +33,7 @@ internal class AuthorizationService(ApplicationDbContext dbContext, UserManager<
             return Result.Failure(new Error(registrationFailureCode, string.Join($";{Environment.NewLine}",
                 result.Errors.Select(e => $"{{{e.Description}}}")), ErrorType.Failure));
         }
-
-        var newDomainUser = User.Create(newUser.Id, login);
-
-        await dbContext.DomainUsers.AddAsync(newDomainUser, token);
+        
         await dbContext.SaveChangesAsync(token);
         
         return Result.Success();
@@ -47,7 +41,7 @@ internal class AuthorizationService(ApplicationDbContext dbContext, UserManager<
 
     public async Task<Result> LoginAsync(string login, string password, CancellationToken token)
     {
-        ApplicationUser? user = await userManager.FindByNameAsync(login);
+        User? user = await userManager.FindByNameAsync(login);
 
         if (user == null || !await userManager.CheckPasswordAsync(user, password))
         {
