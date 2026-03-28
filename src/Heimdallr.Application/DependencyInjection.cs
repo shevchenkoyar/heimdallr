@@ -1,5 +1,6 @@
 using System.Reflection;
 using Heimdallr.Application.Common.Interfaces.Contracts;
+using Heimdallr.Application.Common.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Heimdallr.Application;
