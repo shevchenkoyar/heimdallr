@@ -2,4 +2,4 @@
 
 @rendermode InteractiveServer
 
-<h2 class="text-white"> Hello! @AuthenticationState.User.Claims.First().Value </h2>
+<h2 class="text-white"> Hello! @AuthenticationState.User.Claims.FirstOrDefault()?.Value </h2>

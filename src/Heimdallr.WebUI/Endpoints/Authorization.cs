@@ -39,7 +39,7 @@ internal class Authorization : IEndpoint
                     new CookieOptions
                 {
                     HttpOnly = true,
-                    Expires = dateTimeProvider.UtcNow.AddHours(12)
+                    Expires = dateTimeProvider.UtcNow.AddSeconds(30)
                 });
 
                 
