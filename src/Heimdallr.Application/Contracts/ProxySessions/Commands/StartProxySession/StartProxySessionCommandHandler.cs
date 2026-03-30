@@ -30,7 +30,7 @@ public sealed class StartProxySessionCommandHandler(
 
         if (!user.IsEnabled)
         {
-            throw new InvalidOperationException("User is disabled.");
+            return Result.Failure<ProxySessionDto>(Error.Conflict("User.Disabled", "User is disabled."));
         }
 
         Meter? meter = await dbContext.Meters
