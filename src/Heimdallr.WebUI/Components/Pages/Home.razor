@@ -1,7 +1,5 @@
 ﻿@page "/"
-@using Microsoft.AspNetCore.Authorization
-
-@attribute [Authorize]
+@inherits AuthorizedComponent
 @rendermode InteractiveServer
 
 <h2 class="text-white"> Hello! </h2>
