@@ -10,6 +10,7 @@ namespace Heimdallr.Infrastructure.Database;
 internal sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options), IApplicationDbContext
 {
+    public IQueryable<IUser> ApplicationUsers => Users; 
     public DbSet<UserIpRule> UserIpRules => Set<UserIpRule>();
     
     public DbSet<Meter> Meters => Set<Meter>();

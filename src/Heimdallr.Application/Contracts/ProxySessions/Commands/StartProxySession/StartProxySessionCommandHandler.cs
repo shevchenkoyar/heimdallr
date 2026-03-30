@@ -24,15 +24,14 @@ public sealed class StartProxySessionCommandHandler(
     {
         DateTimeOffset now = dateTimeProvider.UtcNow;
 
-        // TODO: Add User manager service and fix throwing
-        // User user = await dbContext.Users
-        //     .SingleOrDefaultAsync(x => x.Id == command.UserId, cancellationToken)
-        //     ?? throw new InvalidOperationException("User was not found.");
+        IUser user = await dbContext.ApplicationUsers
+                         .SingleOrDefaultAsync(x => x.Id == command.UserId, cancellationToken)
+                     ?? throw new InvalidOperationException("User was not found.");
 
-        // if (!user.IsEnabled)
-        // {
-        //     throw new InvalidOperationException("User is disabled.");
-        // }
+        if (!user.IsEnabled)
+        {
+            throw new InvalidOperationException("User is disabled.");
+        }
 
         Meter? meter = await dbContext.Meters
             .Include(x => x.Endpoints)
