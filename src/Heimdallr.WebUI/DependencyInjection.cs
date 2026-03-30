@@ -63,6 +63,26 @@ public static class DependencyInjection
                                 }
 
                                 return Task.CompletedTask;
+                            },
+                            OnChallenge = context =>
+                            {
+                                context.HandleResponse();
+
+                                bool isApi = context.Request.Path.StartsWithSegments("/api");
+
+                                if (isApi)
+                                {
+                                    context.Response.StatusCode = 401;
+                                }
+                                else
+                                {
+                                    string returnUrl = context.Request.Path + context.Request.QueryString;
+                                    string loginUrl = "/auth?returnUrl=" + Uri.EscapeDataString(returnUrl);
+
+                                    context.Response.Redirect(loginUrl);
+                                }
+
+                                return Task.CompletedTask;
                             }
                         };
                         options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters

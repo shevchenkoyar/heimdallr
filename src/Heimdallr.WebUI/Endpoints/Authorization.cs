@@ -1,10 +1,8 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Heimdallr.Application.Common.Interfaces.Contracts;
 using Heimdallr.Application.Common.Monads;
 using Heimdallr.Application.Common.Time;
 using Heimdallr.Application.Contracts.Users.Commands.Login;
-using Heimdallr.WebUI.Services.Configuration;
 using Heimdallr.WebUI.Services.Security;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
@@ -39,7 +37,7 @@ internal class Authorization : IEndpoint
                     new CookieOptions
                 {
                     HttpOnly = true,
-                    Expires = dateTimeProvider.UtcNow.AddSeconds(30)
+                    Expires = dateTimeProvider.UtcNow.AddHours(12)
                 });
 
                 
