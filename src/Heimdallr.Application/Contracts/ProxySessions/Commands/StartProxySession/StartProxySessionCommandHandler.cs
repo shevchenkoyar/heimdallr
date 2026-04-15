@@ -25,9 +25,8 @@ public sealed class StartProxySessionCommandHandler(
     {
         DateTimeOffset now = dateTimeProvider.UtcNow;
 
-        IUser? user = await userManager.ApplicationUsers
-            .FirstOrDefaultAsync(x => x.Id == command.UserId, cancellationToken);
-
+        IUser? user = await userManager.FindUserByIdAsync(command.UserId);
+        
         if (user is null)
         {
             return Result.Failure<ProxySessionDto>(Error.NotFound("User.NotFound", "User not found."));

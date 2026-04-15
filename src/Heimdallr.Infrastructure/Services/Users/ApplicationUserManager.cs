@@ -19,5 +19,5 @@ internal class ApplicationUserManager(
     : UserManager<User>(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer,
         errors, services, logger), IUserManager
 {
-    public IQueryable<IUser> ApplicationUsers => Users;
+    public async Task<IUser?> FindUserByIdAsync(Guid userId) => await FindByIdAsync(userId.ToString());
 }
