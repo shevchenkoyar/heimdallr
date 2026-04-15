@@ -17,16 +17,21 @@ public sealed class StartProxySessionCommandHandler(
     IApplicationDbContext dbContext,
     IProxyPortAllocator proxyPortAllocator,
     IProxyRuntimeManager proxyRuntimeManager,
-    IDateTimeProvider dateTimeProvider)
+    IDateTimeProvider dateTimeProvider,
+    IUserManager userManager)
     : ICommandHandler<StartProxySessionCommand, ProxySessionDto>
 {
     public async Task<Result<ProxySessionDto>> Handle(StartProxySessionCommand command, CancellationToken cancellationToken)
     {
         DateTimeOffset now = dateTimeProvider.UtcNow;
 
-        IUser user = await dbContext.ApplicationUsers
-                         .SingleOrDefaultAsync(x => x.Id == command.UserId, cancellationToken)
-                     ?? throw new InvalidOperationException("User was not found.");
+        IUser? user = await userManager.ApplicationUsers
+            .FirstOrDefaultAsync(x => x.Id == command.UserId, cancellationToken);
+
+        if (user is null)
+        {
+            return Result.Failure<ProxySessionDto>(Error.NotFound("User.NotFound", "User not found."));
+        }
 
         if (!user.IsEnabled)
         {

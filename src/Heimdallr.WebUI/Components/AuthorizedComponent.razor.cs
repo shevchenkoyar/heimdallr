@@ -4,4 +4,4 @@ using Microsoft.AspNetCore.Components;
 namespace Heimdallr.WebUI.Components;
 
 [Authorize]
-public class AuthorizedComponent : ComponentBase;
+public abstract class AuthorizedComponent : ComponentBase;
