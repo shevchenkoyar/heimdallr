@@ -1,6 +1,5 @@
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
 
 namespace Heimdallr.WebUI.Components.Pages;

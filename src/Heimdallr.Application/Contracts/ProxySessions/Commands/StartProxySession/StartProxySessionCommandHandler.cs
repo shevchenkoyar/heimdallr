@@ -17,22 +17,25 @@ public sealed class StartProxySessionCommandHandler(
     IApplicationDbContext dbContext,
     IProxyPortAllocator proxyPortAllocator,
     IProxyRuntimeManager proxyRuntimeManager,
-    IDateTimeProvider dateTimeProvider)
+    IDateTimeProvider dateTimeProvider,
+    IUserManager userManager)
     : ICommandHandler<StartProxySessionCommand, ProxySessionDto>
 {
     public async Task<Result<ProxySessionDto>> Handle(StartProxySessionCommand command, CancellationToken cancellationToken)
     {
         DateTimeOffset now = dateTimeProvider.UtcNow;
 
-        // TODO: Add User manager service and fix throwing
-        // User user = await dbContext.Users
-        //     .SingleOrDefaultAsync(x => x.Id == command.UserId, cancellationToken)
-        //     ?? throw new InvalidOperationException("User was not found.");
+        IUser? user = await userManager.FindUserByIdAsync(command.UserId);
+        
+        if (user is null)
+        {
+            return Result.Failure<ProxySessionDto>(Error.NotFound("User.NotFound", "User not found."));
+        }
 
-        // if (!user.IsEnabled)
-        // {
-        //     throw new InvalidOperationException("User is disabled.");
-        // }
+        if (!user.IsEnabled)
+        {
+            return Result.Failure<ProxySessionDto>(Error.Conflict("User.Disabled", "User is disabled."));
+        }
 
         Meter? meter = await dbContext.Meters
             .Include(x => x.Endpoints)

@@ -1,10 +1,11 @@
+using Heimdallr.Application.Common.Interfaces.Persistent;
 using Heimdallr.Domain.Entities;
 using Heimdallr.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 
 namespace Heimdallr.Infrastructure.Database.Data;
 
-internal class User : IdentityUser<Guid>
+internal class User : IdentityUser<Guid>, IUser
 {
     public string FirstName { get; set; }
 

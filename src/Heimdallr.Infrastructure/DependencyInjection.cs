@@ -6,6 +6,7 @@ using Heimdallr.Infrastructure.Database.Data;
 using Heimdallr.Infrastructure.Proxying;
 using Heimdallr.Infrastructure.Proxying.Runtime;
 using Heimdallr.Infrastructure.Services;
+using Heimdallr.Infrastructure.Services.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +31,7 @@ public static class DependencyInjection
             services.AddIdentityCore<User>()
                 .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddUserManager<UserManager<User>>();
+                .AddUserManager<ApplicationUserManager>();
             
             return services;
         }
@@ -41,6 +42,7 @@ public static class DependencyInjection
                 options.UseNpgsql(configuration.GetConnectionString("heimdallr-db")));
 
             services.AddDbContext<IApplicationDbContext, ApplicationDbContext>();
+            services.AddScoped<IUserManager, ApplicationUserManager>();
             
             return services;
         }
