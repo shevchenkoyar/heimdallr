@@ -42,6 +42,7 @@ public static class DependencyInjection
                 options.UseNpgsql(configuration.GetConnectionString("heimdallr-db")));
 
             services.AddDbContext<IApplicationDbContext, ApplicationDbContext>();
+            services.AddScoped<IUserManager, ApplicationUserManager>();
             
             return services;
         }
