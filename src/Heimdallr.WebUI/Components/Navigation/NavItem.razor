@@ -1,0 +1,11 @@
+@inject NavigationManager NavigationManager
+
+<span class="cursor-pointer p-2 text-white" @onclick="() => NavigationManager.NavigateTo(Url)">
+    @Title
+</span>
+
+@code
+{
+    [Parameter] public required string Title { get; set; }
+    [Parameter] public required string Url { get; set; }
+}

@@ -1,6 +1,11 @@
-﻿@inherits LayoutComponentBase
+﻿@using Heimdallr.WebUI.Components.Layout.Components
+@using Heimdallr.WebUI.Components.Navigation
+@inherits LayoutComponentBase
 
 
-<div>
-    @Body
+<div class="w-screen h-screen">
+    <HorizontalLayout>
+        <NavMenu />
+        @Body
+    </HorizontalLayout>
 </div>

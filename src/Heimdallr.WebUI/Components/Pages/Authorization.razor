@@ -5,20 +5,20 @@
 @layout AuthorizationLayout
 @rendermode InteractiveServer
 
-<div class="bg-gray-800 border border-red-200 mx-auto px-3 py-5 w-175 text-white">
+<div class="bg-gray-800 border border-primary mx-auto px-3 py-5 w-175 text-white">
     <div class="flex flex-col p-5 gap-3">
         <div class="flex flex-col gap-1">
             <h2 class="text-2xl">Authorization</h2>
         </div>
         <div class="flex flex-col gap-1">
             <label for="@ElementIds.AuthLoginId">Username</label>
-            <input id="@ElementIds.AuthLoginId" class="border border-red-200 px-3 py-2" type="text" @bind="Login"/>
+            <input id="@ElementIds.AuthLoginId" class="border border-primary px-3 py-2" type="text" @bind="Login"/>
         </div>
         <div class="flex flex-col gap-1">
             <Password @bind-Value="Password"/>
         </div>
         <div class="flex">
-            <button class="bg-red-200 text-gray-900 px-3 py-1 hover:cursor-pointer" type="button" @onclick="Submit">Log
+            <button class="bg-primary text-gray-900 px-3 py-1 hover:cursor-pointer" type="button" @onclick="Submit">Log
                 in
             </button>
         </div>
