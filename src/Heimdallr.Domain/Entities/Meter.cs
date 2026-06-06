@@ -19,4 +19,17 @@ public sealed class Meter
     public ICollection<MeterEndpoint> Endpoints { get; set; } = new List<MeterEndpoint>();
     
     public ICollection<ProxySession> Sessions { get; set; } = new List<ProxySession>();
+
+    private Meter(string name, string? model, string? serialNumber)
+    {
+        Id = Guid.CreateVersion7();
+        CreatedAt = DateTimeOffset.UtcNow;
+        UpdatedAt = CreatedAt;
+        Name = name;
+        Model = model;
+        SerialNumber = serialNumber;
+    }
+
+    public static Meter Create(string name, string? model = null, string? serialNumber = null) => 
+        new(name, model, serialNumber);
 }
