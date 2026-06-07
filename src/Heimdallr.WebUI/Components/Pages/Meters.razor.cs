@@ -2,6 +2,7 @@ using Heimdallr.Application.Common.Interfaces.Contracts;
 using Heimdallr.Application.Common.Monads;
 using Heimdallr.Application.Contracts.Meters.Dtos;
 using Heimdallr.Application.Contracts.Meters.Queries;
+using Heimdallr.WebUI.Common.Constants;
 using Microsoft.AspNetCore.Components;
 
 namespace Heimdallr.WebUI.Components.Pages;
@@ -45,8 +46,11 @@ public partial class Meters : ComponentBase
         Dto = result.Value;
     }
 
+    [Inject] public required NavigationManager NavigationManager { get; set; }
+    
     private void CreateNewMeter()
     {
-        // TODO
+        NavigationManager.NavigateTo(PageRoute.MetersCreatePage);
     }
 }
+

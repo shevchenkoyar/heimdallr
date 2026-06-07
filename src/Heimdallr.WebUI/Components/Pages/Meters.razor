@@ -1,13 +1,15 @@
 @attribute [Route(PageRoute.MetersPage)]
 
+@rendermode InteractiveServer
+
 @using Heimdallr.WebUI.Common.Constants
 @using Heimdallr.WebUI.Components.Common.Button
 
-<div class="px-12 py-8 w-full h-full">
+<div class="px-12 py-8 w-full h-full max-h-screen">
     <div class="w-full flex flex-row justify-end mb-5">
-        <TextButton Text="Создать" OnClick="@CreateNewMeter"/>
+        <TextButton Id="button-create-meter" Text="Создать" OnClick="@CreateNewMeter"/>
     </div>
-    <table class="w-full table table-auto border-x border-t border-t-primary border-x-primary h-11/12">
+    <table class="max-h-full w-full border-x border-t border-t-primary border-x-primary">
         <thead class=" bg-gray-800">
         <tr>
             <th class="py-1">Название</th>
@@ -16,24 +18,24 @@
             <th>Включен</th>
         </tr>
         </thead>
-        <tbody class="border border-x-primary has-[tr.empty-meter-row:hover]:border-y-primary">
+        <tbody class="h-full overflow-y-auto border border-x-primary has-[tr.empty-meter-row:hover]:border-y-primary">
         @if (Dto.Meters.Count == 0)
         {
             <tr class="empty-meter-row">
                 <td colspan="4"
                     class="bg-gray-800 hover:cursor-pointer hover:bg-red-200 hover:text-gray-900 text-center py-4"
                     @onclick="@CreateNewMeter">
-                    Пока ни одного прибора нет. Нажимите чтобы добавить
+                    Пока ни одного прибора нет. Нажимите, чтобы добавить
                 </td>
             </tr>
         }
         @foreach (var meter in Dto.Meters)
         {
-            <tr id="meter-row-@meter.MeterId" @key="@meter.MeterId">
-                <td>@meter.Name</td>
-                <td>@meter.Model</td>
-                <td>@meter.SerialNumber</td>
-                <td>@meter.IsEnabled</td>
+            <tr id="meter-row-@meter.MeterId" @key="@meter.MeterId" class=" even:bg-gray-900 not-even:bg-gray-800">
+                <td class="text-center p-1">@meter.Name</td>
+                <td class="text-center">@meter.Model</td>
+                <td class="text-center">@meter.SerialNumber</td>
+                <td class="text-center">@meter.IsEnabled</td>
             </tr>
         }
         </tbody>
@@ -46,11 +48,11 @@
                         </div>
 
                         <div class="flex items-center gap-4">
-                            <TextButton Text="-" OnClick="@(() => PageNumber--)" OnClickAfter="@GetMetersWithCurrentParameters"/>
+                            <TextButton Id="button-decrease-page" Text="-" OnClick="@(() => PageNumber--)" OnClickAfter="@GetMetersWithCurrentParameters"/>
                             <span class="min-w-32 text-center font-medium">
                                 Страница @PageNumber / @Dto.PageCount
                             </span>
-                            <TextButton Text="+" OnClick="@(() => PageNumber++)" OnClickAfter="@GetMetersWithCurrentParameters"/>
+                            <TextButton Id="button-increase-page" Text="+" OnClick="@(() => PageNumber++)" OnClickAfter="@GetMetersWithCurrentParameters"/>
                         </div>
 
                         <div>

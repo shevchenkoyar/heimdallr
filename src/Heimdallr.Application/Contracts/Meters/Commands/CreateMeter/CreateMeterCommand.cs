@@ -4,6 +4,6 @@ namespace Heimdallr.Application.Contracts.Meters.Commands.CreateMeter;
 
 public sealed record CreateMeterCommand(
     string MeterName,
-    string? Model,
-    string? SerialNumber
+    string? Model = null,
+    string? SerialNumber = null
     ) : ICommand<Guid>;

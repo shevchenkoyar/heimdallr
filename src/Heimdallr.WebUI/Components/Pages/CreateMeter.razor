@@ -1,0 +1,19 @@
+@using Heimdallr.WebUI.Common.Constants
+@using Heimdallr.WebUI.Components.Common.Button
+@using Heimdallr.WebUI.Components.Common.Input
+
+@attribute [Route(PageRoute.MetersCreatePage)]
+
+@rendermode InteractiveServer
+
+<div class="w-full h-full flex justify-center">
+            <label for="meter-name-input">Наименование устройства *</label>
+            <Text Value="@MeterName" ValueChanged="OnValueChanged" Id="meter-name-input" Placeholder="Наименование"/>
+            @if (!_isMeterNameValid)
+            {
+                <span class="text-red-500" id="error-text">
+                    @_errorMessage
+                </span>
+            }
+            <TextButton Text="Создать" OnClick="Create" Id="button-create-meter"/>
+</div>

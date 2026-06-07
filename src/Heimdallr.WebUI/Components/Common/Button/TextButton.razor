@@ -5,12 +5,12 @@
 
 @code{
     [Parameter, EditorRequired] public required string Text { get; set; }
+    
+    [Parameter, EditorRequired] public string Id { get; set; } = "button-" + Guid.NewGuid().ToString("N");
 
     [Parameter] public EventCallback OnClick { get; set; }
     
     [Parameter] public EventCallback OnClickAfter { get; set; }
-    
-    [Parameter] public string Id { get; set; } = "button-" + Guid.NewGuid().ToString("N");
     
     [Parameter] public string Class { get; set; } = "";
 

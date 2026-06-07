@@ -29,6 +29,11 @@ internal sealed class CreateMeterCommandHandler(
 
     private static Result Validate(CreateMeterCommand command)
     {
+        if (string.IsNullOrWhiteSpace(command.MeterName))
+        {
+            return Result.Failure(Error.Failure("Meter.Validation", "Meter name cannot be empty."));
+        }
+        
         if (command.MeterName.Length > 200)
         {
             return Result.Failure(Error.Failure("Meter.Validation", "Meter name cannot be longer than 200 characters."));
