@@ -1,0 +1,20 @@
+<button class="bg-primary text-gray-900 px-3 py-1 hover:cursor-pointer" type="button" 
+        @onclick="OnClickHandler">
+    @Text
+</button>
+
+@code{
+    [Parameter, EditorRequired] public required string Text { get; set; }
+
+    [Parameter] public EventCallback OnClick { get; set; }
+    
+    [Parameter] public EventCallback OnClickAfter { get; set; }
+    
+    [Parameter] public string Id { get; set; } = "button-" + Guid.NewGuid().ToString("N");
+    
+    private async Task OnClickHandler()
+    {
+        await OnClick.InvokeAsync();
+        await OnClickAfter.InvokeAsync();
+    }
+}

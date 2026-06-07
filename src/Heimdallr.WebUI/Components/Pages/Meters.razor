@@ -1,0 +1,54 @@
+@attribute [Route(PageRoute.MetersPage)]
+
+@using Heimdallr.WebUI.Common.Constants
+@using Heimdallr.WebUI.Components.Common.Button
+
+<div class="px-12 py-8 w-full h-full">
+    <div class="w-full flex flex-row justify-end mb-5">
+        <TextButton Text="Создать" OnClick="@CreateNewMeter" />
+    </div>
+    <table class="w-full table table-auto">
+        <thead class="border-b-2 border-b-primary">
+        <tr>
+            <th>Название</th>
+            <th>Модель прибора</th>
+            <th>Серийный номер</th>
+            <th>Включен</th>
+        </tr>
+        </thead>
+        <tbody>
+        @if (Dto.Meters.Count == 0)
+        {
+            <tr>
+                <td colspan="4" class="bg-gray-800 hover:cursor-pointer hover:bg-red-200 hover:text-gray-900 text-center py-4"
+                    @onclick="@CreateNewMeter">
+                    Пока ни одного прибора нет. Нажимите чтобы добавить
+                </td>
+            </tr>
+        }
+        @foreach (var meter in Dto.Meters)
+        {
+            <tr id="meter-row-@meter.MeterId" @key="@meter.MeterId">
+                <td>@meter.Name</td>
+                <td>@meter.Model</td>
+                <td>@meter.SerialNumber</td>
+                <td>@meter.IsEnabled</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <div class="flex flex-row mt-5 gap-3">
+        <select class="border-primary border" @bind="ItemsOnPage" @bind:after="GetMetersWithCurrentParameters">
+            <option value="10">10 Элементов</option>
+            <option value="25">25 Элементов</option>
+            <option value="50">50 Элементов</option>
+            <option value="75">75 Элементов</option>
+            <option value="100">100 Элементов</option>
+        </select>
+        <TextButton Text="-" OnClick="@(() => PageNumber--)" OnClickAfter="@GetMetersWithCurrentParameters"/>
+        <span>
+            Страница @PageNumber/@Dto.PageCount
+        </span>
+        <TextButton Text="+" OnClick="@(() => PageNumber++)" OnClickAfter="@GetMetersWithCurrentParameters"/>
+    </div>
+</div>

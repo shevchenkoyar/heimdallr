@@ -1,8 +1,7 @@
-@inject NavigationManager NavigationManager
 
-<span class="cursor-pointer p-2 text-white" @onclick="() => NavigationManager.NavigateTo(Url)">
+<a href="@Url" class="hover:cursor-pointer p-2">
     @Title
-</span>
+</a>
 
 @code
 {

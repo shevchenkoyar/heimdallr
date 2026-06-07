@@ -6,12 +6,10 @@ public partial class NavMenu : ComponentBase
 {
     private IReadOnlyCollection<NavigationItem> Items { get; } =
     [
-        new NavigationItem("Счетчики", "/meters")
+        new("Счетчики", "meters")
     ];
     
-    
-    
-    private class NavigationItem(string title, string url)
+    private sealed class NavigationItem(string title, string url)
     {
         public string Title { get; } = title;
         public string Url { get; } = url;

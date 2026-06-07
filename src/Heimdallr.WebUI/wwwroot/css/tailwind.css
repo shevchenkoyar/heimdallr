@@ -1,3 +1,9 @@
+
+/*
+ When want to build new output.css
+ npx @tailwindcss/cli -i ./wwwroot/css/tailwind.css -o ./wwwroot/css/output.css --watch
+ */
+
 @import "tailwindcss";
 
 @theme inline {

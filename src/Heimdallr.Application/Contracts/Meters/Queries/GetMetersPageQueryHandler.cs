@@ -22,6 +22,11 @@ internal sealed class GetMetersPageQueryHandler(IApplicationDbContext dbContext)
         
         int totalMetersCount = await dbContext.Meters.CountAsync(cancellationToken);
 
+        if (totalMetersCount == 0)
+        {
+            return Result.Success(new MetersPageDto([], 1, 0, 0));
+        }
+        
         int totalPagesCount = Convert.ToInt32(Math.Ceiling((double)totalMetersCount / query.ItemsOnPage));
 
         int requestedPage = Math.Clamp(query.Page, 1, totalPagesCount);
