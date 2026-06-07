@@ -1,4 +1,4 @@
-<button class="bg-primary text-gray-900 px-3 py-1 hover:cursor-pointer" type="button" 
+<button class="bg-primary @TextColor px-3 py-1 hover:cursor-pointer @Class" type="button" 
         @onclick="OnClickHandler">
     @Text
 </button>
@@ -11,6 +11,10 @@
     [Parameter] public EventCallback OnClickAfter { get; set; }
     
     [Parameter] public string Id { get; set; } = "button-" + Guid.NewGuid().ToString("N");
+    
+    [Parameter] public string Class { get; set; } = "";
+
+    [Parameter] public string TextColor { get; set; } = "text-gray-900";
     
     private async Task OnClickHandler()
     {

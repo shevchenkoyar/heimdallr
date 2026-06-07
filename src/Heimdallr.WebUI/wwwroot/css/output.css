@@ -1422,6 +1422,12 @@
   .border-primary {
     border-color: var(--color-red-200);
   }
+  .border-x-primary {
+    border-inline-color: var(--color-red-200);
+  }
+  .border-t-primary {
+    border-top-color: var(--color-red-200);
+  }
   .border-r-primary {
     border-right-color: var(--color-red-200);
   }
@@ -1768,8 +1774,14 @@
   .object-right-top {
     object-position: right top;
   }
+  .p-1 {
+    padding: calc(var(--spacing) * 1);
+  }
   .p-2 {
     padding: calc(var(--spacing) * 2);
+  }
+  .p-3 {
+    padding: calc(var(--spacing) * 3);
   }
   .p-5 {
     padding: calc(var(--spacing) * 5);
@@ -1791,6 +1803,9 @@
   }
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
+  }
+  .py-3 {
+    padding-block: calc(var(--spacing) * 3);
   }
   .py-4 {
     padding-block: calc(var(--spacing) * 4);
@@ -2337,6 +2352,13 @@
       }
     }
   }
+  .hover\:bg-gray-200 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-200);
+      }
+    }
+  }
   .hover\:bg-red-200 {
     &:hover {
       @media (hover: hover) {
@@ -2349,6 +2371,11 @@
       @media (hover: hover) {
         color: var(--color-gray-900);
       }
+    }
+  }
+  .has-\[tr\.empty-meter-row\:hover\]\:border-y-primary {
+    &:has(*:is(tr.empty-meter-row:hover)) {
+      border-block-color: var(--color-red-200);
     }
   }
 }

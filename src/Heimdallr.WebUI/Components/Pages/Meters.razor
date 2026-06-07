@@ -5,10 +5,10 @@
 
 <div class="px-12 py-8 w-full h-full">
     <div class="w-full flex flex-row justify-end mb-5">
-        <TextButton Text="Создать" OnClick="@CreateNewMeter" />
+        <TextButton Text="Создать" OnClick="@CreateNewMeter"/>
     </div>
-    <table class="w-full table table-auto">
-        <thead class="border-b-2 border-b-primary">
+    <table class="w-full table table-auto border-x border-t border-t-primary border-x-primary">
+        <thead class=" bg-gray-800 p-1">
         <tr>
             <th>Название</th>
             <th>Модель прибора</th>
@@ -16,11 +16,12 @@
             <th>Включен</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="border border-x-primary has-[tr.empty-meter-row:hover]:border-y-primary">
         @if (Dto.Meters.Count == 0)
         {
-            <tr>
-                <td colspan="4" class="bg-gray-800 hover:cursor-pointer hover:bg-red-200 hover:text-gray-900 text-center py-4"
+            <tr class="empty-meter-row">
+                <td colspan="4"
+                    class="bg-gray-800 hover:cursor-pointer hover:bg-red-200 hover:text-gray-900 text-center py-4"
                     @onclick="@CreateNewMeter">
                     Пока ни одного прибора нет. Нажимите чтобы добавить
                 </td>
@@ -36,19 +37,27 @@
             </tr>
         }
         </tbody>
+        <tfoot class="bg-gray-800 gap-3 border-x border-x-primary border-b border-b-primary">
+        <tr>
+            <td></td>
+            <td colspan="2" class="py-3">
+                <div class="flex justify-center gap-3">
+                    <TextButton Text="-" OnClick="@(() => PageNumber--)" OnClickAfter="@GetMetersWithCurrentParameters"/>
+                    <span>Страница @PageNumber/@Dto.PageCount</span>
+                    <TextButton Text="+" OnClick="@(() => PageNumber++)" OnClickAfter="@GetMetersWithCurrentParameters"/>
+                </div>
+            </td>
+            <td>
+                <select class="border-primary border" @bind="ItemsOnPage"
+                        @bind:after="GetMetersWithCurrentParameters">
+                    <option value="10">10 Элементов</option>
+                    <option value="25">25 Элементов</option>
+                    <option value="50">50 Элементов</option>
+                    <option value="75">75 Элементов</option>
+                    <option value="100">100 Элементов</option>
+                </select>
+            </td>
+        </tr>
+        </tfoot>
     </table>
-    <div class="flex flex-row mt-5 gap-3">
-        <select class="border-primary border" @bind="ItemsOnPage" @bind:after="GetMetersWithCurrentParameters">
-            <option value="10">10 Элементов</option>
-            <option value="25">25 Элементов</option>
-            <option value="50">50 Элементов</option>
-            <option value="75">75 Элементов</option>
-            <option value="100">100 Элементов</option>
-        </select>
-        <TextButton Text="-" OnClick="@(() => PageNumber--)" OnClickAfter="@GetMetersWithCurrentParameters"/>
-        <span>
-            Страница @PageNumber/@Dto.PageCount
-        </span>
-        <TextButton Text="+" OnClick="@(() => PageNumber++)" OnClickAfter="@GetMetersWithCurrentParameters"/>
-    </div>
 </div>
