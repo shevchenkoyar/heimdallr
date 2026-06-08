@@ -8,5 +8,6 @@ internal sealed class PageRoute
     
     public const string MetersPage = "meters";
     public const string MetersCreatePage = "meters/create";
-    
+
+    public const string MeterEditPage = "meters/edit/{meterId:guid}";
 }

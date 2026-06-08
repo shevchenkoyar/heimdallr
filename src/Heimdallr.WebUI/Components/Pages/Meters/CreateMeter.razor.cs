@@ -3,7 +3,7 @@ using Heimdallr.Application.Common.Monads;
 using Heimdallr.Application.Contracts.Meters.Commands.CreateMeter;
 using Microsoft.AspNetCore.Components;
 
-namespace Heimdallr.WebUI.Components.Pages;
+namespace Heimdallr.WebUI.Components.Pages.Meters;
 
 public partial class CreateMeter : ComponentBase
 {

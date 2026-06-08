@@ -1,0 +1,85 @@
+@attribute [Route(PageRoute.MetersPage)]
+
+@rendermode InteractiveServer
+
+@using Heimdallr.WebUI.Common.Constants
+@using Heimdallr.WebUI.Components.Common.Button
+
+<div class="px-12 py-8 w-full h-11/12">
+    <div class="w-full flex flex-row justify-end mb-5">
+        <TextButton Id="button-create-meter" Text="Создать" OnClick="@CreateNewMeter"/>
+    </div>
+    <div class="h-full flex flex-col gap-4">
+        @if (Dto.Meters.Count == 0)
+        {
+            <div class="bg-gray-800 hover:cursor-pointer hover:bg-red-200 hover:text-gray-900 text-center py-8 border border-primary"
+                 @onclick="@CreateNewMeter">
+                Пока ни одного прибора нет. Нажимите, чтобы добавить
+            </div>
+        }
+        else
+        {
+            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 overflow-y-auto">
+                @foreach (var meter in Dto.Meters)
+                {
+                    <div id="meter-card-@meter.MeterId"
+                         @key="@meter.MeterId"
+                         class="bg-gray-800 border border-primary p-4 hover:bg-gray-700 transition-colors hover:cursor-pointer"
+                         @onclick="OpenMeter(@meter.MeterId)">
+
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="text-lg font-semibold">@meter.Name</div>
+                                <div class="text-sm text-gray-400">@meter.Model</div>
+                            </div>
+
+                            <span class="px-2 py-1  text-sm @(meter.IsEnabled ? "bg-green-600 text-white" : "bg-gray-600 text-gray-200")">
+                                @(meter.IsEnabled ? "Включен" : "Выключен")
+                            </span>
+                        </div>
+
+                        <div class="space-y-2 text-sm">
+                            <div>
+                                <span class="text-gray-400">Серийный номер:</span>
+                                <span class="ml-2">@meter.SerialNumber</span>
+                            </div>
+
+                            <div>
+                                <span class="text-gray-400">Модель</span>
+                                <span class="ml-2">@meter.Model</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        <div class="bg-gray-800 border border-primary px-4 py-3 mt-auto">
+            <div class="flex items-center justify-between">
+                <div class="text-sm text-gray-400">
+                    Показано элементов: @Dto.ItemsOnPage / @Dto.TotalItems
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <TextButton Id="button-decrease-page" Text="-" OnClick="@(() => PageNumber--)" OnClickAfter="@GetMetersWithCurrentParameters"/>
+                    <span class="min-w-32 text-center font-medium">
+                        Страница @PageNumber / @Dto.PageCount
+                    </span>
+                    <TextButton Id="button-increase-page" Text="+" OnClick="@(() => PageNumber++)" OnClickAfter="@GetMetersWithCurrentParameters"/>
+                </div>
+
+                <div>
+                    <select class="border border-primary bg-primary text-gray-900 px-2 py-3"
+                            @bind="ItemsOnPage"
+                            @bind:after="GetMetersWithCurrentParameters">
+                        <option value="10">10 элементов</option>
+                        <option value="25">25 элементов</option>
+                        <option value="50">50 элементов</option>
+                        <option value="75">75 элементов</option>
+                        <option value="100">100 элементов</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

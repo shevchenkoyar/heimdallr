@@ -5,7 +5,7 @@ using Heimdallr.Application.Contracts.Meters.Queries;
 using Heimdallr.WebUI.Common.Constants;
 using Microsoft.AspNetCore.Components;
 
-namespace Heimdallr.WebUI.Components.Pages;
+namespace Heimdallr.WebUI.Components.Pages.Meters;
 
 public partial class Meters : ComponentBase
 {
@@ -51,6 +51,11 @@ public partial class Meters : ComponentBase
     private void CreateNewMeter()
     {
         NavigationManager.NavigateTo(PageRoute.MetersCreatePage);
+    }
+
+    private void OpenMeter(Guid meterId)
+    {
+        NavigationManager.NavigateTo(PageRoute.MeterEditPage.Replace("{meterId:guid}", meterId.ToString()));
     }
 }
 
